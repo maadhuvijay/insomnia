@@ -26,7 +26,7 @@ import type {
 } from '@grpc/proto-loader';
 import * as protoLoader from '@grpc/proto-loader';
 import electron, { type IpcMainEvent } from 'electron';
-import * as grpcReflection from 'grpc-reflection-js';
+//import * as grpcReflection from 'grpc-reflection-js';
 
 import { version } from '../../../package.json';
 import * as models from '../../models';
