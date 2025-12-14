@@ -307,3 +307,201 @@ If the app doesn't open or you encounter errors, share the output and I can help
 
 ---
 
+_**User (2025-12-14 01:40Z)**_
+
+npm warn Unknown project config "runtime". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "target". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "disturl". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "playwright_skip_browser_download". This will stop working in the next major version of npm.
+
+
+
+> insomnia@1.0.0 dev
+
+> npm start -w insomnia
+
+
+
+npm warn Unknown env config "disturl". This will stop working in the next major version of npm.
+
+npm warn Unknown env config "playwright-skip-browser-download". This will stop working in the next major version of npm.
+
+npm warn Unknown env config "runtime". This will stop working in the next major version of npm.
+
+npm warn Unknown env config "target". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "runtime". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "target". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "disturl". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "playwright_skip_browser_download". This will stop working in the next major version of npm.
+
+
+
+> insomnia@12.2.0-beta.0 start
+
+> npx -y concurrently -n browser,main --kill-others "npm run start:dev-server" "npm run start:electron"
+
+
+
+npm warn Unknown env config "disturl". This will stop working in the next major version of npm.
+
+npm warn Unknown env config "playwright-skip-browser-download". This will stop working in the next major version of npm.
+
+npm warn Unknown env config "runtime". This will stop working in the next major version of npm.
+
+npm warn Unknown env config "target". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "runtime". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "target". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "disturl". This will stop working in the next major version of npm.
+
+npm warn Unknown project config "playwright_skip_browser_download". This will stop working in the next major version of npm.
+
+[browser] npm warn Unknown env config "disturl". This will stop working in the next major version of npm.
+
+[browser] npm warn Unknown env config "playwright-skip-browser-download". This will stop working in the next major version of npm.
+
+[browser] npm warn Unknown env config "runtime". This will stop working in the next major version of npm.
+
+[browser] npm warn Unknown env config "target". This will stop working in the next major version of npm.
+
+[browser] npm warn Unknown project config "runtime". This will stop working in the next major version of npm.
+
+[browser] npm warn Unknown project config "target". This will stop working in the next major version of npm.
+
+[browser] npm warn Unknown project config "disturl". This will stop working in the next major version of npm.
+
+[browser] npm warn Unknown project config "playwright_skip_browser_download". This will stop working in the next major version of npm.
+
+[browser]
+
+[browser] > insomnia@12.2.0-beta.0 start:dev-server
+
+[browser] > vite dev
+
+[browser]
+
+[main] npm warn Unknown env config "disturl". This will stop working in the next major version of npm.
+
+[main] npm warn Unknown env config "playwright-skip-browser-download". This will stop working in the next major version of npm.
+
+[main] npm warn Unknown env config "runtime". This will stop working in the next major version of npm.
+
+[main] npm warn Unknown env config "target". This will stop working in the next major version of npm.
+
+[main] npm warn Unknown project config "runtime". This will stop working in the next major version of npm.
+
+[main] npm warn Unknown project config "target". This will stop working in the next major version of npm.
+
+[main] npm warn Unknown project config "disturl". This will stop working in the next major version of npm.
+
+[main] npm warn Unknown project config "playwright_skip_browser_download". This will stop working in the next major version of npm.
+
+[main]
+
+[main] > insomnia@12.2.0-beta.0 start:electron
+
+[main] > cross-env NODE_ENV=development esr esbuild.entrypoints.ts && electron --inspect=5858 .
+
+[main]
+
+[browser] 'vite' is not recognized as an internal or external command,
+
+[browser] operable program or batch file.
+
+[browser] npm error Lifecycle script `start:dev-server` failed with error:
+
+[browser] npm error code 1
+
+[browser] npm error path C:\Users\maadh\Git Local\AI-Accelerator\Week2_sprint\insomnia-fork\packages\insomnia
+
+[browser] npm error workspace insomnia@12.2.0-beta.0
+
+[browser] npm error location C:\Users\maadh\Git Local\AI-Accelerator\Week2_sprint\insomnia-fork\packages\insomnia
+
+[browser] npm error command failed
+
+[browser] npm error command C:\Windows\system32\cmd.exe /d /s /c vite dev
+
+[browser] npm run start:dev-server exited with code 1
+
+--> Sending SIGTERM to other processes..
+
+[main] 'cross-env' is not recognized as an internal or external command,
+
+[main] operable program or batch file.
+
+[main] npm error Lifecycle script `start:electron` failed with error:
+
+[main] npm error code 1
+
+[main] npm error path C:\Users\maadh\Git Local\AI-Accelerator\Week2_sprint\insomnia-fork\packages\insomnia
+
+[main] npm error workspace insomnia@12.2.0-beta.0
+
+[main] npm error location C:\Users\maadh\Git Local\AI-Accelerator\Week2_sprint\insomnia-fork\packages\insomnia
+
+[main] npm error command failed
+
+[main] npm error command C:\Windows\system32\cmd.exe /d /s /c cross-env NODE_ENV=development esr esbuild.entrypoints.ts && electron --inspect=5858 .
+
+[main] npm run start:electron exited with code 1
+
+npm error Lifecycle script `start` failed with error:
+
+npm error code 1
+
+npm error path C:\Users\maadh\Git Local\AI-Accelerator\Week2_sprint\insomnia-fork\packages\insomnia
+
+npm error workspace insomnia@12.2.0-beta.0
+
+npm error location C:\Users\maadh\Git Local\AI-Accelerator\Week2_sprint\insomnia-fork\packages\insomnia
+
+npm error command failed
+
+npm error command C:\Windows\system32\cmd.exe /d /s /c npx -y concurrently -n browser,main --kill-others "npm run start:dev-server" "npm run start:electron"
+
+
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Dependencies aren't fully installed. `vite` and `cross-env` are missing. Checking the workspace structure and installing dependencies:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: packages/insomnia/package.json</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="unknown" data-tool-name="list_dir">
+<details>
+<summary>Tool use: **list_dir**</summary>
+
+Status: **loading**
+
+
+</details>
+</tool-use>
+
+---
+
