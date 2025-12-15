@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import React, { type FC, memo } from 'react';
 
-import type { TimingStep } from '../../../main/network/request-timing';
 import { getPerformanceIndicator } from '../../../common/response-utils';
+import type { TimingStep } from '../../../main/network/request-timing';
 import { Tooltip } from '../tooltip';
 
 interface Props {

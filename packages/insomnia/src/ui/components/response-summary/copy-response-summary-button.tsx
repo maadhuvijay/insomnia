@@ -2,8 +2,8 @@ import classnames from 'classnames';
 import React, { type FC, useCallback, useState } from 'react';
 import * as reactUse from 'react-use';
 
-import { formatResponseSummary } from '../../../common/response-utils';
 import type { CopyResponseSummaryButtonProps } from '../../../../specs/001-response-status-indicators/contracts/component-interfaces';
+import { formatResponseSummary } from '../../../common/response-utils';
 import { Button } from '../themed-button';
 
 /**

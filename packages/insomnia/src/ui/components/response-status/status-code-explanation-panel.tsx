@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import { type FC, memo } from 'react';
 
-import { RESPONSE_CODE_DESCRIPTIONS, RESPONSE_CODE_REASONS } from '../../../common/constants';
 import type { StatusCodeExplanationPanelProps } from '../../../../specs/001-response-status-indicators/contracts/component-interfaces';
+import { RESPONSE_CODE_DESCRIPTIONS, RESPONSE_CODE_REASONS } from '../../../common/constants';
 
 /**
  * Helper function to get class-based description for unknown/non-standard status codes
