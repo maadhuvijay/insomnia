@@ -1,8 +1,8 @@
 # Specification Quality Checklist: Enhanced Response Status Indicators
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
-**Created**: 2025-01-27
-**Feature**: [spec.md](./spec.md)
+**Created**: 2025-12-15
+**Feature**: [spec.md](../spec.md)
 
 ## Content Quality
 
