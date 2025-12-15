@@ -958,3 +958,422 @@ All files pass linting with no errors. The status code descriptions are updated 
 
 ---
 
+_**User (2025-12-14 04:34Z)**_
+
+In the user story1 description, match the color of the status code to the status code in response summary strip. 200 should be green and 404 should be orange
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Checking how status code colors are applied in both components, then aligning them.
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: packages/insomnia/src/ui/components/tags/status-tag.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Both components use the same mapping. Verifying how StatusTag uses these classes and ensuring the explanation panel matches:
+
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "bg-success bg-warning status tag color styling CSS" • **15** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `packages/insomnia/src/ui/components/tags/status-tag.tsx` | L6-48 |
+| `packages/insomnia/src/ui/css/main.css` | L1148-1224 |
+| `packages/insomnia/src/ui/components/tags/grpc-status-tag.tsx` | L6-31 |
+| `packages/insomnia/src/ui/components/tags/status-tag.tsx` | L13-86 |
+| `packages/insomnia/src/plugins/misc.ts` | L327-391 |
+| `packages/insomnia/src/routes/organization.$organizationId.project.$projectId._index.tsx` | L99-124 |
+| `packages/insomnia/src/basic-components/progress.tsx` | L2-31 |
+| `packages/insomnia/src/routes/organization.$organizationId.project._index.tsx` | L97-119 |
+| `packages/insomnia/src/ui/components/tabs/tab.tsx` | L24-213 |
+| `packages/insomnia-component-docs/src/css/default.css` | L49 |
+| `packages/insomnia/src/ui/css/main.css` | L1045-1156 |
+| `packages/insomnia/src/ui/css/main.css` | L1718-1821 |
+| `packages/insomnia/src/plugins/themes/hyper.ts` | L50 |
+| `packages/insomnia-component-docs/src/css/default.css` | L45-102 |
+| `packages/insomnia/src/ui/css/main.css` | L3265-3356 |
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Confirming the mapping matches. StatusTag uses background colors (`bg-success` for 2xx, `bg-warning` for 4xx), and the explanation panel uses text colors. Checking if `text-warning` exists and verifying the color mapping matches:
+
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "text-warning|text-success|text-info|text-danger|text-surprise" in "packages/insomnia/src/ui/css" • 2 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `packages/insomnia/src/ui/css\main.css` | `.text-danger \{` | L1200 |
+| `packages/insomnia/src/ui/css\main.css` | `.text-success \{` | L1203 |
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking CSS for warning text color support. Ensuring the explanation panel matches StatusTag's color logic:
+
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "\.text-warning|--color-warning" in "packages/insomnia/src/ui/css" • 12 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `packages/insomnia/src/ui/css\styles.css` | `background: rgba(var(--color-warning-rgb), 0.2);` | L179 |
+| `packages/insomnia/src/ui/css\main.css` | `border-color: var(--color-warning);` | L339 |
+| `packages/insomnia/src/ui/css\main.css` | `background-color: var(--color-warning);` | L342 |
+| `packages/insomnia/src/ui/css\main.css` | `border: 1px solid var(--color-warning) !important;` | L808 |
+| `packages/insomnia/src/ui/css\main.css` | `color: var(--color-warning) !important;` | L1154 |
+| `packages/insomnia/src/ui/css\main.css` | `background: var(--color-warning) !important;` | L1190 |
+| `packages/insomnia/src/ui/css\main.css` | `text-shadow: 0 0 0.05em var(--color-warning);` | L1191 |
+| `packages/insomnia/src/ui/css\main.css` | `background: var(--color-warning);` | L1587 |
+| `packages/insomnia/src/ui/css\main.css` | `color: var(--color-warning);` | L1714 |
+| `packages/insomnia/src/ui/css\main.css` | `color: var(--color-warning);` | L1723 |
+| `packages/insomnia/src/ui/css\main.css` | `color: var(--color-warning);` | L1967 |
+| `packages/insomnia/src/ui/css\main.css` | `color: var(--color-warning);` | L2371 |
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking for other uses of text-warning and text-info classes:
+
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "text-warning|text-info|text-surprise" in "packages/insomnia/src" • 4 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `packages/insomnia/src\ui\components\response-status\status-code-explanation-panel.tsx` | `'1': 'text-info',` | L79 |
+| `packages/insomnia/src\ui\components\response-status\status-code-explanation-panel.tsx` | `'3': 'text-surprise',` | L81 |
+| `packages/insomnia/src\ui\components\response-status\status-code-explanation-panel.tsx` | `'4': 'text-warning',` | L82 |
+| `packages/insomnia/src\ui\components\response-status\status-code-explanation-panel.tsx` | `\}[firstChar] \|\| 'text-surprise';` | L85 |
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Using inline styles with CSS variables to ensure the colors match StatusTag, since `text-warning`, `text-info`, and `text-surprise` may not be defined. Updating the component:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: packages/insomnia/src/ui/css/main.css</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Adding the missing text color classes to the CSS file to match the pattern, ensuring consistent color matching:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: packages/insomnia/src/ui/css/main.css</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Adding the missing text color classes to the CSS:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: packages/insomnia/src/ui/css/main.css</summary>
+
+**Chunk 1**
+Lines added: 9, lines removed: undefined
+
+```diff
+@@ -1204,4 +1204,13 @@
+    color: var(--color-success);
+  }
++ .text-warning {
++   color: var(--color-warning);
++ }
++ .text-info {
++   color: var(--color-info);
++ }
++ .text-surprise {
++   color: var(--color-surprise-font);
++ }
+  .bg-info,
+  .bg-http-method-OPTIONS,
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Verifying the surprise color variable:
+
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "surprise.*color|--color-surprise" in "packages/insomnia/src/ui/css/main.css" • 26 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `packages/insomnia/src/ui/css/main.css` | `border-color: var(--color-surprise);` | L364 |
+| `packages/insomnia/src/ui/css/main.css` | `background-color: var(--color-surprise);` | L367 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise-font) !important;` | L1168 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise-font);` | L1213 |
+| `packages/insomnia/src/ui/css/main.css` | `background: var(--color-surprise) !important;` | L1224 |
+| `packages/insomnia/src/ui/css/main.css` | `text-shadow: 0 0 0.05em var(--color-surprise);` | L1225 |
+| `packages/insomnia/src/ui/css/main.css` | `background: var(--color-surprise);` | L1578 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1676 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1702 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1705 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1708 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1729 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1741 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1744 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1768 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1777 |
+| `packages/insomnia/src/ui/css/main.css` | `background: var(--color-surprise);` | L1845 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1964 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L1973 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L2362 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L2371 |
+| `packages/insomnia/src/ui/css/main.css` | `background-color: var(--color-surprise);` | L2533 |
+| `packages/insomnia/src/ui/css/main.css` | `color: var(--color-surprise);` | L2738 |
+| `packages/insomnia/src/ui/css/main.css` | `border-bottom: 2px dotted var(--color-surprise);` | L3091 |
+| `packages/insomnia/src/ui/css/main.css` | `border-left: var(--padding-xxs) solid var(--color-surprise);` | L3125 |
+| `packages/insomnia/src/ui/css/main.css` | `border-left: var(--padding-xxs) solid var(--color-surprise);` | L3274 |
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking which variable is used for text color in the surprise class:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: packages/insomnia/src/ui/css/main.css</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating to use `--color-surprise` for consistency with the other text color classes:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: packages/insomnia/src/ui/css/main.css</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -1211,5 +1211,5 @@
+  }
+  .text-surprise {
+-   color: var(--color-surprise-font);
++   color: var(--color-surprise);
+  }
+  .bg-info,
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking for linting errors:
+
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 2 files</summary>
+      
+Lint paths:
+
+- `packages/insomnia/src/ui/css/main.css`
+- `packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Verifying the color mapping matches between both components:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+The color mapping is correct:
+
+1. Status code 200 (2xx): uses `text-success` → green (matches StatusTag's `bg-success`)
+2. Status code 404 (4xx): uses `text-warning` → orange (matches StatusTag's `bg-warning`)
+
+Added the missing CSS text color classes (`text-warning`, `text-info`, `text-surprise`) so these classes are defined and the colors display correctly.
+
+## Summary
+
+- Added CSS classes for text colors in `main.css`:
+  - `.text-warning` → `var(--color-warning)` (orange)
+  - `.text-info` → `var(--color-info)` (blue)
+  - `.text-surprise` → `var(--color-surprise)` (purple)
+
+- The `StatusCodeExplanationPanel` already uses the correct mapping:
+  - 2xx codes → `text-success` (green)
+  - 4xx codes → `text-warning` (orange)
+
+This matches the StatusTag component in the response summary strip: 200 is green and 404 is orange.
+
+---
+
