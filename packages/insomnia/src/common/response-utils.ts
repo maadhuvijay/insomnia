@@ -108,13 +108,11 @@ export function formatResponseSummary(
   
   const lines = [
     `Request: ${request.method || 'UNKNOWN'} ${request.url || 'N/A'}`,
-    request.name ? `Name: ${request.name}` : null,
-    '',
     `Status: ${response.statusCode || 'N/A'} ${(response.statusMessage || '').trim()}`,
     `Time: ${elapsedTime}ms (${performanceLabel})`,
     `Size: ${responseSize}`,
     `Timestamp: ${timestamp}`,
-  ].filter(Boolean);
+  ];
 
   return lines.join('\n');
 }
