@@ -80,10 +80,10 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 ### Implementation for User Story 2
 
 - [X] T015 [P] [US2] Modify TimeTag component to accept showPerformanceIndicator prop in packages/insomnia/src/ui/components/tags/time-tag.tsx
-- [ ] T016 [US2] Add performance indicator visual (color/icon) to TimeTag component using getPerformanceIndicator utility in packages/insomnia/src/ui/components/tags/time-tag.tsx
-- [ ] T017 [US2] Update response-pane.tsx to pass showPerformanceIndicator={true} to TimeTag component in packages/insomnia/src/ui/components/panes/response-pane.tsx
-- [ ] T018 [US2] Add TailwindCSS styling for performance indicators (bg-success, bg-warning, bg-danger) in TimeTag component in packages/insomnia/src/ui/components/tags/time-tag.tsx
-- [ ] T019 [US2] Handle edge cases in performance indicator (0ms response times, cancelled requests, error states) in packages/insomnia/src/ui/components/tags/time-tag.tsx
+- [X] T016 [US2] Add performance indicator visual (color/icon) to TimeTag component using getPerformanceIndicator utility in packages/insomnia/src/ui/components/tags/time-tag.tsx
+- [X] T017 [US2] Update response-pane.tsx to pass showPerformanceIndicator={true} to TimeTag component in packages/insomnia/src/ui/components/panes/response-pane.tsx
+- [X] T018 [US2] Add TailwindCSS styling for performance indicators (bg-success, bg-warning, bg-danger) in TimeTag component in packages/insomnia/src/ui/components/tags/time-tag.tsx
+- [X] T019 [US2] Handle edge cases in performance indicator (0ms response times, cancelled requests, error states) in packages/insomnia/src/ui/components/tags/time-tag.tsx
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently. Users can see both status code explanations and performance indicators.
 
