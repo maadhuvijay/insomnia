@@ -1666,29 +1666,169 @@ Creating the CopyResponseSummaryButton component:
 
 ---
 
-<tool-use data-tool-type="unknown" data-tool-name="write">
+<tool-use data-tool-type="write" data-tool-name="write">
+
+<details><summary>Tool use: **write** • Edit file: c:\dev\insomnia\packages\insomnia\src\ui\components\response-summary\copy-response-summary-button.tsx</summary>
+
+**Chunk 1**
+Lines added: 118, lines removed: 1
+
+```diff
+@@ -1,1 +1,118 @@
+- 
++ import classnames from 'classnames';
++ import React, { type FC, useCallback, useState } from 'react';
++ import * as reactUse from 'react-use';
++ 
++ import { formatResponseSummary } from '../../../common/response-utils';
++ import type { CopyResponseSummaryButtonProps } from '../../../../specs/001-response-status-indicators/contracts/component-interfaces';
++ import { Button } from '../themed-button';
++ 
++ /**
++  * CopyResponseSummaryButton component
++  * 
++  * Provides a copy summary button in the Response Summary Strip header area that allows
++  * users to copy a concise, well-formatted summary of the API response to their clipboard
++  * for sharing in tickets, documentation, or chat tools.
++  * 
++  * Features:
++  * - Formats response summary using formatResponseSummary utility
++  * - Copies to clipboard using window.clipboard.writeText()
++  * - Shows visual feedback (success/error) for copy action
++  * - Handles clipboard access failures gracefully
++  * - Includes all required fields (method, URL, status, time with category, size, timestamp)
++  */
++ export const CopyResponseSummaryButton: FC&lt;CopyResponseSummaryButtonProps&gt; = ({
++   request,
++   response,
++   className,
++   onCopySuccess,
++   onCopyError,
++ }) =&gt; {
++   const [showConfirmation, setShowConfirmation] = useState(false);
++   const [errorState, setErrorState] = useState&lt;string | null&gt;(null);
++ 
++   // Auto-hide confirmation after 2 seconds
++   reactUse.useInterval(() =&gt; {
++     if (showConfirmation) {
++       setShowConfirmation(false);
++     }
++     if (errorState) {
++       setErrorState(null);
++     }
++   }, 2000);
++ 
++   const handleCopy = useCallback(
++     async (event: React.MouseEvent&lt;HTMLButtonElement&gt;) =&gt; {
++       event.preventDefault();
++       event.stopPropagation();
++ 
++       try {
++         // Generate formatted summary using utility function
++         const summary = formatResponseSummary(request, response);
++ 
++         // Copy to clipboard
++         window.clipboard.writeText(summary);
++ 
++         // Show success feedback
++         setShowConfirmation(true);
++         setErrorState(null);
++ 
++         // Call success callback if provided
++         if (onCopySuccess) {
++           onCopySuccess();
++         }
++       } catch (error) {
++         // Handle clipboard access failures
++         const errorMessage = error instanceof Error ? error.message : 'Failed to copy to clipboard';
++         setErrorState(errorMessage);
++         setShowConfirmation(false);
++ 
++         // Call error callback if provided
++         if (onCopyError) {
++           onCopyError(error instanceof Error ? error : new Error(errorMessage));
++         }
++ 
++         // Log error for debugging (non-blocking)
++         console.error('Failed to copy response summary:', error);
++       }
++     },
++     [request, response, onCopySuccess, onCopyError],
++   );
++ 
++   // Determine button content based on state
++   let buttonContent: React.ReactNode;
++   let buttonTitle: string;
++ 
++   if (errorState) {
++     buttonContent = (
++       &lt;span&gt;
++         Error &lt;i className="fa fa-exclamation-circle" /&gt;
++       &lt;/span&gt;
++     );
++     buttonTitle = errorState;
++   } else if (showConfirmation) {
++     buttonContent = (
++       &lt;span&gt;
++         Copied &lt;i className="fa fa-check-circle-o" /&gt;
++       &lt;/span&gt;
++     );
++     buttonTitle = 'Response summary copied to clipboard';
++   } else {
++     buttonContent = &lt;i className="fa fa-copy" /&gt;;
++     buttonTitle = 'Copy response summary to clipboard';
++   }
++ 
++   return (
++     &lt;Button
++       className={classnames(className)}
++       onClick={handleCopy}
++       title={buttonTitle}
++       aria-label={buttonTitle}
++       aria-live="polite"
++     &gt;
++       {buttonContent}
++     &lt;/Button&gt;
++   );
++ };
++ 
++ CopyResponseSummaryButton.displayName = 'CopyResponseSummaryButton';
++ 
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
 <details>
-<summary>Tool use: **write**</summary>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx`
+
+Lint results
 
 
-Parameters:
+**No lint errors found**
+</details>
+</tool-use>
 
-```json
-{
-  "relativeWorkspacePath": "c:\\dev\\insomnia\\packages\\insomnia\\src\\ui\\components\\response-summary\\copy-response-summary-button.tsx"
-}
-```
-Additional data:
+---
 
-```json
-{
-  "codeblockId": "f151d6c9-2c57-4c19-a1e8-59c3daa3512c"
-}
-```
-User decision: **accepted**
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
 
-Status: **loading**
-
+- [x] Create CopyResponseSummaryButton component
+- [x] Implement clipboard copy functionality
+- [x] Implement formatResponseSummary integration
+- [x] Add visual feedback for copy action
+- [ ] Integrate into response-pane.tsx
+- [x] Add error handling for clipboard failures
+- [x] Ensure all required fields are included
 
 </details>
 </tool-use>
@@ -1696,6 +1836,392 @@ Status: **loading**
 ---
 
 
+
+---
+
+
+Integrating CopyResponseSummaryButton into response-pane.tsx:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: c:\dev\insomnia\packages\insomnia\src\ui\components\panes\response-pane.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "activeRequest\.(method|url|name)" in "c:\dev\insomnia\packages\insomnia\src\ui\components\panes\response-pane.tsx" • 1 match</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `packages/insomnia/src/ui/components/panes/response-pane.tsx` | `defaultPath: `$\{activeRequest.name.replace(/ +/g, '_')\}-$\{Date.now()\}.$\{extension\}`,` | L81 |
+
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "What properties does activeRequest have? What is the structure of Request model?" • **15** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `packages/insomnia/src/models/request-meta.ts` | L8-26 |
+| `packages/insomnia/src/models/request.ts` | L26 |
+| `packages/insomnia-inso/src/db/models/types.ts` | L46-58 |
+| `packages/insomnia/src/network/network.ts` | L128-245 |
+| `packages/insomnia-scripting-environment/src/objects/request.ts` | L243-468 |
+| `packages/insomnia/src/routes/organization.$organizationId.project.$projectId.workspace.$workspaceId.debug.request.$requestId.tsx` | L68-189 |
+| `packages/insomnia/src/models/request.ts` | L265-295 |
+| `packages/insomnia/src/models/request.ts` | L272-297 |
+| `packages/insomnia/src/models/request-meta.ts` | L26-48 |
+| `packages/insomnia/src/routes/organization.$organizationId.project.$projectId.workspace.$workspaceId.debug.request.$requestId.tsx` | L51-80 |
+| `packages/insomnia-scripting-environment/src/objects/request.ts` | L37 |
+| `packages/insomnia/src/routes/organization.$organizationId.project.$projectId.workspace.$workspaceId.debug.request.$requestId.tsx` | L43-66 |
+| `packages/insomnia/src/routes/organization.$organizationId.project.$projectId.workspace.$workspaceId.debug.request.$requestId.tsx` | L80-195 |
+| `packages/insomnia/src/models/mcp-request.ts` | L15-36 |
+| `packages/insomnia/src/models/request-group.ts` | L13-30 |
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking how the request URL is accessed:
+
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "activeRequest\.url|request\.url" in "c:\dev\insomnia\packages\insomnia\src\ui\components\panes" • 15 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `packages/insomnia/src/ui/components/panes\request-pane.tsx` | `query = extractQueryStringFromUrl(activeRequest.url);` | L57 |
+| `packages/insomnia/src/ui/components/panes\request-pane.tsx` | `const url = activeRequest.url.replace(`?$\{query\}`, '');` | L64 |
+| `packages/insomnia/src/ui/components/panes\request-pane.tsx` | `if (url !== activeRequest.url) \{` | L68 |
+| `packages/insomnia/src/ui/components/panes\request-pane.tsx` | `const pathParameters = getCombinedPathParametersFromUrl(activeRequest.url, activeRequest.pathParameters \|\| []);` | L86 |
+| `packages/insomnia/src/ui/components/panes\request-pane.tsx` | `const urlHasQueryParameters = activeRequest.url.includes('?');` | L94 |
+| `packages/insomnia/src/ui/components/panes\grpc-request-pane.tsx` | `\} else if (activeRequest.url && activeRequest.reflectionApi) \{` | L73 |
+| `packages/insomnia/src/ui/components/panes\grpc-request-pane.tsx` | `url: activeRequest.url,` | L81 |
+| `packages/insomnia/src/ui/components/panes\grpc-request-pane.tsx` | `...(activeRequest.url.toLowerCase().startsWith('grpcs:')` | L110 |
+| `packages/insomnia/src/ui/components/panes\grpc-request-pane.tsx` | `c => !c.disabled && urlMatchesCertHost(setDefaultProtocol(c.host, 'grpc:'), request.url, false),` | L151 |
+| `packages/insomnia/src/ui/components/panes\grpc-request-pane.tsx` | `...(request.url.toLowerCase().startsWith('grpcs:')` | L161 |
+| `packages/insomnia/src/ui/components/panes\grpc-request-pane.tsx` | `<div className="flex-1" title=\{activeRequest.url\}>` | L229 |
+| `packages/insomnia/src/ui/components/panes\grpc-request-pane.tsx` | `defaultValue=\{activeRequest.url\}` | L234 |
+| `packages/insomnia/src/ui/components/panes\grpc-request-pane.tsx` | `disabled=\{!activeRequest.url\}` | L273 |
+| `packages/insomnia/src/ui/components/panes\grpc-request-pane.tsx` | `url: activeRequest.url,` | L283 |
+| `packages/insomnia/src/ui/components/panes\grpc-request-pane.tsx` | `...(activeRequest.url.toLowerCase().startsWith('grpcs:')` | L315 |
+
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "How is the request URL accessed in response-pane? Is it activeRequest.url or do we need to construct it?" • **8** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `packages/insomnia/src/ui/components/panes/request-pane.tsx` | L36-383 |
+| `packages/insomnia/src/ui/components/panes/request-pane.tsx` | L40-383 |
+| `packages/insomnia/src/ui/components/panes/grpc-request-pane.tsx` | L58-505 |
+| `packages/insomnia/src/ui/components/panes/response-pane.tsx` | L38 |
+| `packages/insomnia/src/ui/components/panes/response-pane.tsx` | L34-301 |
+| `packages/insomnia/src/ui/components/panes/request-pane.tsx` | L31 |
+| `packages/insomnia/src/ui/components/panes/grpc-request-pane.tsx` | L30 |
+| `packages/insomnia/src/ui/components/panes/grpc-request-pane.tsx` | L53-505 |
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: c:\dev\insomnia\packages\insomnia\src\ui\components\panes\response-pane.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Integrating CopyResponseSummaryButton into response-pane.tsx:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: c:\dev\insomnia\packages\insomnia\src\ui\components\panes\response-pane.tsx</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -30,4 +30,5 @@
+  import { ResponseViewer } from '../viewers/response-viewer';
+  import { StatusCodeExplanationPanel } from '../response-status/status-code-explanation-panel';
++ import { CopyResponseSummaryButton } from '../response-summary/copy-response-summary-button';
+  import { BlankPane } from './blank-pane';
+  import { Pane, PaneHeader } from './pane';
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: c:\dev\insomnia\packages\insomnia\src\ui\components\panes\response-pane.tsx</summary>
+
+**Chunk 1**
+Lines added: 23, lines removed: 5
+
+```diff
+@@ -149,9 +149,27 @@
+              &lt;SizeTag bytesRead={activeResponse.bytesRead} bytesContent={activeResponse.bytesContent} /&gt;
+            &lt;/div&gt;
+-           &lt;ResponseHistoryDropdown
+-             activeResponse={activeResponse}
+-             responses={responses}
+-             requestVersions={requestVersions}
+-           /&gt;
++           &lt;div className="flex items-center gap-2"&gt;
++             &lt;CopyResponseSummaryButton
++               request={{
++                 method: activeRequest.method,
++                 url: activeRequest.url,
++                 name: activeRequest.name,
++               }}
++               response={{
++                 statusCode: activeResponse.statusCode,
++                 statusMessage: activeResponse.statusMessage,
++                 elapsedTime: activeResponse.elapsedTime,
++                 bytesContent: activeResponse.bytesContent,
++                 bytesRead: activeResponse.bytesRead,
++                 created: activeResponse.created,
++                 url: activeResponse.url,
++               }}
++             /&gt;
++             &lt;ResponseHistoryDropdown
++               activeResponse={activeResponse}
++               responses={responses}
++               requestVersions={requestVersions}
++             /&gt;
++           &lt;/div&gt;
+          &lt;/PaneHeader&gt;
+        )}
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `packages/insomnia/src/ui/components/panes/response-pane.tsx`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="task" data-tool-name="todo_write">
+<details><summary>Tool use: **todo_write** • Todo List</summary>
+
+- [x] Create CopyResponseSummaryButton component
+- [x] Implement clipboard copy functionality
+- [x] Implement formatResponseSummary integration
+- [x] Add visual feedback for copy action
+- [x] Integrate into response-pane.tsx
+- [x] Add error handling for clipboard failures
+- [x] Ensure all required fields are included
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Marking tasks as complete in tasks.md:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: c:\dev\insomnia\specs\001-response-status-indicators\tasks.md</summary>
+
+**Chunk 1**
+Lines added: 7, lines removed: 7
+
+```diff
+@@ -98,11 +98,11 @@
+  ### Implementation for User Story 3
+  
+- - [ ] T020 [P] [US3] Create CopyResponseSummaryButton component in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- - [ ] T021 [US3] Implement clipboard copy functionality using window.clipboard.writeText() in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- - [ ] T022 [US3] Implement formatResponseSummary integration to generate structured text summary in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- - [ ] T023 [US3] Add visual feedback (success/error) for copy action in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- - [ ] T024 [US3] Integrate CopyResponseSummaryButton into response-pane.tsx PaneHeader next to ResponseHistoryDropdown in packages/insomnia/src/ui/components/panes/response-pane.tsx
+- - [ ] T025 [US3] Add error handling for clipboard access failures in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- - [ ] T026 [US3] Ensure copy summary includes all required fields (method, URL, status, time with category, size, timestamp) in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
++ - [X] T020 [P] [US3] Create CopyResponseSummaryButton component in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
++ - [X] T021 [US3] Implement clipboard copy functionality using window.clipboard.writeText() in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
++ - [X] T022 [US3] Implement formatResponseSummary integration to generate structured text summary in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
++ - [X] T023 [US3] Add visual feedback (success/error) for copy action in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
++ - [X] T024 [US3] Integrate CopyResponseSummaryButton into response-pane.tsx PaneHeader next to ResponseHistoryDropdown in packages/insomnia/src/ui/components/panes/response-pane.tsx
++ - [X] T025 [US3] Add error handling for clipboard access failures in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
++ - [X] T026 [US3] Ensure copy summary includes all required fields (method, URL, status, time with category, size, timestamp) in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+  
+  **Checkpoint**: At this point, all three user stories should be independently functional. Users can see status code explanations, performance indicators, and copy response summaries.
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: c:\dev\insomnia\packages\insomnia\src\ui\components\response-summary\copy-response-summary-button.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Verifying the implementation is complete and correct:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: c:\dev\insomnia\packages\insomnia\src\common\response-utils.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: c:\dev\insomnia\packages\insomnia\src\ui\components\panes\response-pane.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 2 files</summary>
+      
+Lint paths:
+
+- `packages/insomnia/src/ui/components/response-summary`
+- `packages/insomnia/src/ui/components/panes/response-pane.tsx`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+## Completed Tasks Summary
+
+### T020: Create CopyResponseSummaryButton Component
+- Created `copy-response-summary-button.tsx` in `packages/insomnia/src/ui/components/response-summary/`
+- Component follows Insomnia patterns (uses `Button`, `react-use` for intervals)
+- Includes TypeScript types from contracts
+
+### T021: Implement Clipboard Copy Functionality
+- Uses `window.clipboard.writeText()` for copying (Electron API)
+- Follows the same pattern as existing `CopyButton` component
+
+### T022: Implement formatResponseSummary Integration
+- Integrated `formatResponseSummary` utility function
+- Generates structured text summary with all required fields
+
+### T023: Add Visual Feedback
+- Success state: Shows "Copied" with check icon for 2 seconds
+- Error state: Shows "Error" with exclamation icon
+- Uses `react-use.useInterval` to auto-hide feedback after 2 seconds
+
+### T024: Integrate into response-pane.tsx
+- Added `CopyResponseSummaryButton` next to `ResponseHistoryDropdown` in `PaneHeader`
+- Wrapped in a flex container with proper spacing
+- Passes all required request and response props
+
+### T025: Add Error Handling
+- Try-catch around clipboard operations
+- Error state management with user feedback
+- Calls `onCopyError` callback if provided
+- Logs errors to console for debugging
+
+### T026: Ensure All Required Fields Included
+- Verified `formatResponseSummary` includes:
+  - Request method and URL (and name if available)
+  - Status code and message
+  - Response time with performance category label (Fast/Moderate/Slow)
+  - Response size (formatted)
+  - Timestamp (ISO 8601 format)
+
+All tasks T020-T026 are complete and marked in `tasks.md`. The Copy Response Summary feature is implemented and ready for use. Users can click the copy button in the response pane header to copy a formatted summary of the API response to their clipboard.
 
 ---
 

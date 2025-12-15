@@ -97,7 +97,7 @@ export const CopyResponseSummaryButton: FC<CopyResponseSummaryButtonProps> = ({
     );
     buttonTitle = 'Response summary copied to clipboard';
   } else {
-    buttonContent = <i className="fa fa-copy" />;
+    buttonContent = <i className="fa fa-copy text-orange-500" />;
     buttonTitle = 'Copy response summary to clipboard';
   }
 
