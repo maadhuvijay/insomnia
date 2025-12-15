@@ -1,0 +1,29 @@
+﻿# insomnia Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2025-12-14
+
+## Active Technologies
+
+- TypeScript 5.8.3, React 18.3.1 + React Aria Components, Electron 38.4.0, TailwindCSS 4.1.17 (001-response-status-indicators)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+npm test; npm run lint
+
+## Code Style
+
+TypeScript 5.8.3, React 18.3.1: Follow standard conventions
+
+## Recent Changes
+
+- 001-response-status-indicators: Added TypeScript 5.8.3, React 18.3.1 + React Aria Components, Electron 38.4.0, TailwindCSS 4.1.17
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
