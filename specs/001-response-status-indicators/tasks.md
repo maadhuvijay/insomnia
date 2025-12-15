@@ -63,9 +63,9 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 
 - [ ] T010 [P] [US1] Create StatusCodeExplanationPanel component in packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx
 - [ ] T011 [US1] Integrate StatusCodeExplanationPanel into response-pane.tsx between TabList and TabPanel in packages/insomnia/src/ui/components/panes/response-pane.tsx
-- [ ] T012 [US1] Add loading state handling for StatusCodeExplanationPanel when response is executing
-- [ ] T013 [US1] Add handling for unknown/non-standard status codes in StatusCodeExplanationPanel
-- [ ] T014 [US1] Ensure StatusCodeExplanationPanel remains visible when switching between response view mode tabs
+- [ ] T012 [US1] Add loading state handling for StatusCodeExplanationPanel when response is executing in packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx
+- [ ] T013 [US1] Add handling for unknown/non-standard status codes in StatusCodeExplanationPanel in packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx
+- [ ] T014 [US1] Ensure StatusCodeExplanationPanel remains visible when switching between response view mode tabs in packages/insomnia/src/ui/components/panes/response-pane.tsx
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently. Users can see status code explanations for any HTTP response.
 
@@ -82,8 +82,8 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 - [ ] T015 [P] [US2] Modify TimeTag component to accept showPerformanceIndicator prop in packages/insomnia/src/ui/components/tags/time-tag.tsx
 - [ ] T016 [US2] Add performance indicator visual (color/icon) to TimeTag component using getPerformanceIndicator utility in packages/insomnia/src/ui/components/tags/time-tag.tsx
 - [ ] T017 [US2] Update response-pane.tsx to pass showPerformanceIndicator={true} to TimeTag component in packages/insomnia/src/ui/components/panes/response-pane.tsx
-- [ ] T018 [US2] Add TailwindCSS styling for performance indicators (bg-success, bg-warning, bg-danger) in TimeTag component
-- [ ] T019 [US2] Handle edge cases in performance indicator (0ms response times, cancelled requests, error states)
+- [ ] T018 [US2] Add TailwindCSS styling for performance indicators (bg-success, bg-warning, bg-danger) in TimeTag component in packages/insomnia/src/ui/components/tags/time-tag.tsx
+- [ ] T019 [US2] Handle edge cases in performance indicator (0ms response times, cancelled requests, error states) in packages/insomnia/src/ui/components/tags/time-tag.tsx
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently. Users can see both status code explanations and performance indicators.
 
@@ -98,12 +98,12 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 ### Implementation for User Story 3
 
 - [ ] T020 [P] [US3] Create CopyResponseSummaryButton component in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
-- [ ] T021 [US3] Implement clipboard copy functionality using window.clipboard.writeText() in CopyResponseSummaryButton
-- [ ] T022 [US3] Implement formatResponseSummary integration to generate structured text summary in CopyResponseSummaryButton
-- [ ] T023 [US3] Add visual feedback (success/error) for copy action in CopyResponseSummaryButton
+- [ ] T021 [US3] Implement clipboard copy functionality using window.clipboard.writeText() in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- [ ] T022 [US3] Implement formatResponseSummary integration to generate structured text summary in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- [ ] T023 [US3] Add visual feedback (success/error) for copy action in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
 - [ ] T024 [US3] Integrate CopyResponseSummaryButton into response-pane.tsx PaneHeader next to ResponseHistoryDropdown in packages/insomnia/src/ui/components/panes/response-pane.tsx
-- [ ] T025 [US3] Add error handling for clipboard access failures in CopyResponseSummaryButton
-- [ ] T026 [US3] Ensure copy summary includes all required fields (method, URL, status, time with category, size, timestamp)
+- [ ] T025 [US3] Add error handling for clipboard access failures in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- [ ] T026 [US3] Ensure copy summary includes all required fields (method, URL, status, time with category, size, timestamp) in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
 
 **Checkpoint**: At this point, all three user stories should be independently functional. Users can see status code explanations, performance indicators, and copy response summaries.
 
@@ -120,7 +120,7 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 - [ ] T031 [P] Add accessibility attributes (aria-live, aria-label) to new components
 - [ ] T032 [P] Verify edge case handling (non-standard status codes, 0ms times, cancelled requests, very large response times)
 - [ ] T033 [P] Run quickstart.md validation scenarios
-- [ ] T034 Code cleanup and refactoring for consistency with existing Insomnia patterns
+- [ ] T034 [P] Code cleanup and refactoring for consistency with existing Insomnia patterns across all modified files
 - [ ] T035 [P] Verify performance goals met (status panel render <50ms, indicator calculation <1ms, clipboard copy <100ms)
 
 ---
