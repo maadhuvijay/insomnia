@@ -2359,3 +2359,92 @@ The icon now displays in bright orange when the button is in its default state.
 
 ---
 
+_**User (2025-12-14 04:34Z)**_
+
+In the copy summary response , remove the 2nd line that mentions Name: Just keep the Request, Status, Time, Size, and timestamp
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Removing the "Name:" line from the copy summary. Updating `formatResponseSummary`:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: c:\dev\insomnia\packages\insomnia\src\common\response-utils.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: c:\dev\insomnia\packages\insomnia\src\common\response-utils.ts</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: 3
+
+```diff
+@@ -109,11 +109,9 @@
+    const lines = [
+      &#96;Request: ${request.method || 'UNKNOWN'} ${request.url || 'N/A'}&#96;,
+-     request.name ? &#96;Name: ${request.name}&#96; : null,
+-     '',
+      &#96;Status: ${response.statusCode || 'N/A'} ${(response.statusMessage || '').trim()}&#96;,
+      &#96;Time: ${elapsedTime}ms (${performanceLabel})&#96;,
+      &#96;Size: ${responseSize}&#96;,
+      &#96;Timestamp: ${timestamp}&#96;,
+-   ].filter(Boolean);
++   ];
+  
+    return lines.join('\n');
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `packages/insomnia/src/common/response-utils.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Removed the "Name:" line from the copy summary. The summary now includes:
+
+1. **Request**: Method and URL
+2. **Status**: Status code and message
+3. **Time**: Response time with performance category (Fast/Moderate/Slow)
+4. **Size**: Formatted response size
+5. **Timestamp**: ISO 8601 timestamp
+
+The empty line between Request and Status was also removed. The summary is now more concise.
+
+---
+

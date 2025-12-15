@@ -11,11 +11,11 @@ import type { StatusCodeExplanationPanelProps } from '../../../../specs/001-resp
 function getClassBasedDescription(statusCode: number): string {
   const firstDigit = Math.floor(statusCode / 100);
   const ranges: Record<number, string> = {
-    1: 'Informational response (1xx). The request was received, continuing process.',
-    2: 'Successful response (2xx). The request was successfully received, understood, and accepted.',
-    3: 'Redirection response (3xx). Further action needs to be taken in order to complete the request.',
-    4: 'Client error response (4xx). The request contains bad syntax or cannot be fulfilled.',
-    5: 'Server error response (5xx). The server failed to fulfill a valid request.',
+    1: 'The request has been received and is still being processed.',
+    2: 'The request was successfully processed.',
+    3: 'The request requires redirection to another resource.',
+    4: 'The request contains a client-side error.',
+    5: 'The server failed to process a valid request.',
   };
   return ranges[firstDigit] || 'Unknown status code range. This is not a standard HTTP status code.';
 }

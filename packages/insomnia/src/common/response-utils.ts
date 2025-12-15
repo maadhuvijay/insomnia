@@ -146,11 +146,11 @@ export function getStatusCodeDescription(statusCode: number): string {
   // For unknown status codes, return class-based description
   const firstDigit = Math.floor(statusCode / 100);
   const classDescriptions: Record<number, string> = {
-    1: 'Informational response (1xx)',
-    2: 'Successful response (2xx)',
-    3: 'Redirection response (3xx)',
-    4: 'Client error response (4xx)',
-    5: 'Server error response (5xx)',
+    1: 'The request has been received and is still being processed.',
+    2: 'The request was successfully processed.',
+    3: 'The request requires redirection to another resource.',
+    4: 'The request contains a client-side error.',
+    5: 'The server failed to process a valid request.',
   };
 
   return classDescriptions[firstDigit] || 'Unknown status code';
