@@ -247,7 +247,13 @@ const RealtimeActiveResponsePane: FC<RealtimeActiveResponsePaneProps & { readySt
           ) : (
             <>
               <StatusTag statusCode={response.statusCode} statusMessage={response.statusMessage} />
-              <TimeTag milliseconds={response.elapsedTime} steps={[]} />
+              <TimeTag 
+                milliseconds={response.elapsedTime} 
+                steps={[]} 
+                showPerformanceIndicator={true}
+                error={response.error}
+                statusMessage={response.statusMessage}
+              />
               <SizeTag bytesRead={0} bytesContent={0} />
             </>
           )}

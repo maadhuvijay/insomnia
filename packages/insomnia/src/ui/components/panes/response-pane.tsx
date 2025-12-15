@@ -20,6 +20,8 @@ import { PreviewModeDropdown } from '../dropdowns/preview-mode-dropdown';
 import { ResponseHistoryDropdown } from '../dropdowns/response-history-dropdown';
 import { MockResponseExtractor } from '../editors/mock-response-extractor';
 import { ErrorBoundary } from '../error-boundary';
+import { StatusCodeExplanationPanel } from '../response-status/status-code-explanation-panel';
+import { CopyResponseSummaryButton } from '../response-summary/copy-response-summary-button';
 import { ResponseTimer } from '../response-timer';
 import { SizeTag } from '../tags/size-tag';
 import { StatusTag } from '../tags/status-tag';
@@ -137,14 +139,38 @@ export const ResponsePane: FC<Props> = ({ activeRequestId }) => {
         <PaneHeader className="row-spaced">
           <div aria-atomic="true" aria-live="polite" className="no-wrap scrollable scrollable--no-bars pad-left">
             <StatusTag statusCode={activeResponse.statusCode} statusMessage={activeResponse.statusMessage} />
-            <TimeTag milliseconds={activeResponse.elapsedTime} steps={steps} />
+            <TimeTag 
+              milliseconds={activeResponse.elapsedTime} 
+              steps={steps} 
+              showPerformanceIndicator={true}
+              error={activeResponse.error}
+              statusMessage={activeResponse.statusMessage}
+            />
             <SizeTag bytesRead={activeResponse.bytesRead} bytesContent={activeResponse.bytesContent} />
           </div>
-          <ResponseHistoryDropdown
-            activeResponse={activeResponse}
-            responses={responses}
-            requestVersions={requestVersions}
-          />
+          <div className="flex items-center gap-2">
+            <CopyResponseSummaryButton
+              request={{
+                method: activeRequest.method,
+                url: activeRequest.url,
+                name: activeRequest.name,
+              }}
+              response={{
+                statusCode: activeResponse.statusCode,
+                statusMessage: activeResponse.statusMessage,
+                elapsedTime: activeResponse.elapsedTime,
+                bytesContent: activeResponse.bytesContent,
+                bytesRead: activeResponse.bytesRead,
+                created: activeResponse.created,
+                url: activeResponse.url,
+              }}
+            />
+            <ResponseHistoryDropdown
+              activeResponse={activeResponse}
+              responses={responses}
+              requestVersions={requestVersions}
+            />
+          </div>
         </PaneHeader>
       )}
       <Tabs
@@ -217,6 +243,13 @@ export const ResponsePane: FC<Props> = ({ activeRequestId }) => {
             Console
           </Tab>
         </TabList>
+        {activeResponse && (
+          <StatusCodeExplanationPanel
+            statusCode={activeResponse.statusCode}
+            statusMessage={activeResponse.statusMessage}
+            isLoading={isExecuting}
+          />
+        )}
         <TabPanel className="flex w-full flex-1 flex-col overflow-hidden" id="preview">
           <Toolbar className="flex h-(--line-height-sm) w-full shrink-0 items-center border-b border-solid border-(--hl-md) px-2">
             <PreviewModeDropdown

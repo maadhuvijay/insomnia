@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import React, { type FC, memo } from 'react';
 
+import { getPerformanceIndicator } from '../../../common/response-utils';
 import type { TimingStep } from '../../../main/network/request-timing';
 import { Tooltip } from '../tooltip';
 
@@ -10,6 +11,9 @@ interface Props {
   className?: string;
   tooltipDelay?: number;
   steps?: TimingStep[];
+  showPerformanceIndicator?: boolean;
+  error?: string;
+  statusMessage?: string;
 }
 export const getTimeAndUnit = (milliseconds: number) => {
   let unit = 'ms';
@@ -34,13 +38,22 @@ export const getTimeAndUnit = (milliseconds: number) => {
 
   return { number, unit };
 };
-export const TimeTag: FC<Props> = memo(({ milliseconds, small, className, tooltipDelay, steps }) => {
+export const TimeTag: FC<Props> = memo(({ milliseconds, small, className, tooltipDelay, steps, showPerformanceIndicator, error, statusMessage }) => {
   const totalMs = steps?.reduce((acc, step) => acc + (step.duration || 0), 0) || milliseconds;
   const { number, unit } = getTimeAndUnit(totalMs);
   const timesandunits = steps?.map(step => {
     const { number, unit } = getTimeAndUnit(step.duration || 0);
     return { stepName: step.stepName, number, unit };
   });
+
+  // Handle edge cases: don't show performance indicator for cancelled requests, errors, or 0ms times
+  const isCancelled = statusMessage === 'Cancelled' || error?.toLowerCase().includes('cancelled');
+  const hasError = !!error;
+  const isZeroTime = totalMs === 0 || !totalMs;
+  const shouldShowIndicator = showPerformanceIndicator && !isCancelled && !hasError && !isZeroTime && totalMs > 0;
+  
+  const performanceIndicator = shouldShowIndicator ? getPerformanceIndicator(totalMs) : null;
+
   return (
     <div
       className={classnames(
@@ -50,31 +63,46 @@ export const TimeTag: FC<Props> = memo(({ milliseconds, small, className, toolti
         },
         className,
       )}
+      role="group"
+      aria-label={`Response time: ${number} ${unit}${performanceIndicator ? `, ${performanceIndicator.label}` : ''}`}
     >
-      <Tooltip
-        message={
-          <div>
-            {timesandunits?.map(step => (
-              <div key={step.stepName} className="flex justify-between">
-                <div className="mr-5">{step.stepName} </div>
+      <div className="flex items-center gap-1">
+        {performanceIndicator && (
+          <div
+            className={classnames(
+              'h-2 w-2 rounded-full',
+              performanceIndicator.indicatorClass,
+            )}
+            role="img"
+            aria-label={`Performance indicator: ${performanceIndicator.label}`}
+            title={performanceIndicator.label}
+          />
+        )}
+        <Tooltip
+          message={
+            <div>
+              {timesandunits?.map(step => (
+                <div key={step.stepName} className="flex justify-between">
+                  <div className="mr-5">{step.stepName} </div>
+                  <div>
+                    {step.number} {step.unit}
+                  </div>
+                </div>
+              ))}
+              <div key="total" className="flex justify-between">
+                <div className="mr-5">Total </div>
                 <div>
-                  {step.number} {step.unit}
+                  {number} {unit}
                 </div>
               </div>
-            ))}
-            <div key="total" className="flex justify-between">
-              <div className="mr-5">Total </div>
-              <div>
-                {number} {unit}
-              </div>
             </div>
-          </div>
-        }
-        position="bottom"
-        delay={tooltipDelay}
-      >
-        {number}&nbsp;{unit}
-      </Tooltip>
+          }
+          position="bottom"
+          delay={tooltipDelay}
+        >
+          {number}&nbsp;{unit}
+        </Tooltip>
+      </div>
     </div>
   );
 });
