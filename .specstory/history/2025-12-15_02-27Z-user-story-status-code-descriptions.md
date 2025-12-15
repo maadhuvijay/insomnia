@@ -597,3 +597,364 @@ Lines added: 2, lines removed: 2
 
 ---
 
+
+Updating the 4xx status codes:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: packages/insomnia/src/common/constants.ts</summary>
+
+**Chunk 1**
+Lines added: 28, lines removed: 27
+
+```diff
+@@ -424,32 +424,33 @@
+    308: 'The resource is permanently available at a new URL.',
+    // 400s
+-   400: 'This response means that the server could not understand the request due to invalid syntax.',
+-   401: 'Authentication is needed to get the requested response. This is similar to 403, but is different in that authentication is possible.',
+-   402: 'This response code is reserved for future use. Initial aim for creating this code was using it for digital payment systems, but it is not used currently.',
+-   403: 'Client does not have access rights to the content, so the server is rejecting to give proper response.',
+-   404: 'Server cannot find requested resource. This response code is probably the most famous one due to how frequently it occurs on the web.',
+-   405: 'The request method is known by the server but has been disabled and cannot be used.',
+-   406: "This response is sent when the web server, after performing server-driven content negotiation, doesn't find any content following the criteria given by the user agent.",
+-   407: 'This is similar to 401 but authentication is needed to be done by a proxy.',
+-   408: 'This response is sent on an idle connection by some servers, even without any previous request by the client. It means that the server would like to shut down this unused connection. This response is used much more since some browsers, like Chrome or IE9, use HTTP pre-connection mechanisms to speed up surfing (see bug 881804, which tracks the future implementation of such a mechanism in Firefox). Also, note that some servers merely shut down the connection without sending this message.',
+-   409: 'This response is sent when a request conflicts with the current state of the server.',
+-   410: 'This response is sent when the requested content has been deleted from the server.',
+-   411: 'Server rejected the request because the Content-Length header field is not defined and the server requires it.',
+-   412: 'The client has indicated preconditions in its headers which the server does not meet.',
+-   413: 'Request entity is larger than limits defined by the server; the server might close the connection or return a Retry-After header field.',
+-   414: 'The URI requested by the client is longer than the server is willing to interpret.',
+-   415: 'The media format of the requested data is not supported by the server, so the server is rejecting the request.',
+-   416: "The range specified by the Range header field in the request can't be fulfilled; it's possible that the range is outside the size of the target URI's data.",
+-   417: "This response code means the expectation indicated by the Expect request header field can't be met by the server.",
+-   418: 'Any attempt to brew coffee with a teapot should result in the error code "418 I\'m a teapot". The resulting entity body MAY be short and stout.',
+-   421: 'The request was directed at a server that is not able to produce a response. This can be sent by a server that is not configured to produce responses for the combination of scheme and authority that are included in the request URI.',
+-   422: 'The request was well-formed but was unable to be followed due to semantic errors.',
+-   423: 'The resource that is being accessed is locked.',
++   400: 'The request is invalid or cannot be processed by the server.',
++   401: 'Authentication is missing or invalid.',
++   402: 'Payment is required to access the requested resource.',
++   403: 'The server understood the request but refuses to authorize it.',
++   404: 'The requested resource could not be found.',
++   405: 'The HTTP method is not supported for this resource.',
++   406: 'The server cannot generate a response matching the acceptable values.',
++   407: 'Authentication with a proxy server is required.',
++   408: 'The server timed out waiting for the request.',
++   409: 'The request conflicts with the current state of the resource.',
++   410: 'The requested resource is permanently unavailable.',
++   411: 'Content-Length header is required.',
++   412: 'Preconditions in request headers were not met.',
++   413: 'The request payload is too large for the server to process.',
++   414: 'The requested URI is too long for the server to process.',
++   415: 'The request format is not supported.',
++   416: 'The requested range cannot be fulfilled.',
++   417: 'The server cannot meet the expectation in the request headers.',
++   418: 'The server refuses to brew coffee because it is a teapot. (Easter egg)',
++   421: 'The request was sent to the wrong server.',
++   422: 'The request is well-formed but contains semantic errors.',
++   423: 'The resource is locked.',
+    424: 'The request failed due to failure of a previous request.',
+-   426: 'The server refuses to perform the request using the current protocol but might be willing to do so after the client upgrades to a different protocol. The server MUST send an Upgrade header field in a 426 response to indicate the required protocol(s) (Section 6.7 of [RFC7230]).',
+-   428: "The origin server requires the request to be conditional. Intended to prevent \"the 'lost update' problem, where a client GETs a resource's state, modifies it, and PUTs it back to the server, when meanwhile a third party has modified the state on the server, leading to a conflict.\"",
+-   429: 'The user has sent too many requests in a given amount of time ("rate limiting").',
+-   431: 'The server is unwilling to process the request because its header fields are too large. The request MAY be resubmitted after reducing the size of the request header fields.',
+-   451: 'The user requests an illegal resource, such as a web page censored by a government.',
++   425: 'The server is unwilling to process the request due to replay risk.',
++   426: 'The client must switch to a different protocol.',
++   428: 'Preconditions are required before processing the request.',
++   429: 'The client has sent too many requests in a given amount of time.',
++   431: 'Request headers are too large.',
++   451: 'Access is denied due to legal restrictions.',
+    // 500s
+    500: "The server has encountered a situation it doesn't know how to handle.",
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating the 5xx status codes:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: packages/insomnia/src/common/constants.ts</summary>
+
+**Chunk 1**
+Lines added: 10, lines removed: 11
+
+```diff
+@@ -454,16 +454,15 @@
+    451: 'Access is denied due to legal restrictions.',
+    // 500s
+-   500: "The server has encountered a situation it doesn't know how to handle.",
+-   501: 'The request method is not supported by the server and cannot be handled. The only methods that servers are required to support (and therefore that must not return this code) are GET and HEAD.',
+-   502: 'This error response means that the server, while working as a gateway to get a response needed to handle the request, got an invalid response.',
+-   503: 'The server is not ready to handle the request. Common causes are a server that is down for maintenance or that is overloaded. Note that together with this response, a user-friendly page explaining the problem should be sent. This responses should be used for temporary conditions and the Retry-After: HTTP header should, if possible, contain the estimated time before the recovery of the service. The webmaster must also take care about the caching-related headers that are sent along with this response, as these temporary condition responses should usually not be cached.',
+-   504: 'This error response is given when the server is acting as a gateway and cannot get a response in time.',
+-   505: 'The HTTP version used in the request is not supported by the server.',
+-   506: 'The server has an internal configuration error: transparent content negotiation for the request results in a circular reference.',
+-   507: 'The server has an internal configuration error: the chosen variant resource is configured to engage in transparent content negotiation itself, and is therefore not a proper end point in the negotiation process.',
++   500: 'The server encountered an unexpected error.',
++   501: 'The server does not support the request method.',
++   502: 'The server received an invalid response from an upstream server.',
++   503: 'The server is currently unable to handle the request.',
++   504: 'The server did not receive a timely response from an upstream server.',
++   505: 'The HTTP version used is not supported.',
++   506: 'Content negotiation error occurred.',
++   507: 'The server cannot store the representation needed to complete the request.',
+    508: 'The server detected an infinite loop while processing the request.',
+-   509: 'The server has exceeded the bandwidth specified by the server administrator; this is often used by shared hosting providers to limit the bandwidth of customers.',
+-   510: 'Further extensions to the request are required for the server to fulfill it.',
+-   511: 'The 511 status code indicates that the client needs to authenticate to gain network access.',
++   510: 'Further extensions are required to fulfill the request.',
++   511: 'Network authentication is required to access the resource.',
+    598: 'Used by some HTTP proxies to signal a network read timeout behind the proxy to a client in front of the proxy.',
+    599: 'An error used by some HTTP proxies to signal a network connect timeout behind the proxy to a client in front of the proxy.',
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Restoring 509 with its original description since it wasn't in the user's table:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: packages/insomnia/src/common/constants.ts</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -463,4 +463,5 @@
+    507: 'The server cannot store the representation needed to complete the request.',
+    508: 'The server detected an infinite loop while processing the request.',
++   509: 'The server has exceeded the bandwidth specified by the server administrator; this is often used by shared hosting providers to limit the bandwidth of customers.',
+    510: 'Further extensions are required to fulfill the request.',
+    511: 'Network authentication is required to access the resource.',
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Adding 102 and 103 to the RESPONSE_CODE_REASONS constant:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: packages/insomnia/src/common/constants.ts</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: undefined
+
+```diff
+@@ -476,4 +476,6 @@
+    100: 'Continue',
+    101: 'Switching Protocols',
++   102: 'Processing',
++   103: 'Early Hints',
+    // 200s
+    200: 'OK',
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating the class-based fallback descriptions in `response-utils.ts`:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: packages/insomnia/src/common/response-utils.ts</summary>
+
+**Chunk 1**
+Lines added: 5, lines removed: 5
+
+```diff
+@@ -147,9 +147,9 @@
+    const firstDigit = Math.floor(statusCode / 100);
+    const classDescriptions: Record&lt;number, string&gt; = {
+-     1: 'Informational response (1xx)',
+-     2: 'Successful response (2xx)',
+-     3: 'Redirection response (3xx)',
+-     4: 'Client error response (4xx)',
+-     5: 'Server error response (5xx)',
++     1: 'The request has been received and is still being processed.',
++     2: 'The request was successfully processed.',
++     3: 'The request requires redirection to another resource.',
++     4: 'The request contains a client-side error.',
++     5: 'The server failed to process a valid request.',
+    };
+  
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking if the status-code-explanation-panel component also uses class-based descriptions that need updating:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating the class-based description function in the status-code-explanation-panel component to match the requirements:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx</summary>
+
+**Chunk 1**
+Lines added: 5, lines removed: 5
+
+```diff
+@@ -12,9 +12,9 @@
+    const firstDigit = Math.floor(statusCode / 100);
+    const ranges: Record&lt;number, string&gt; = {
+-     1: 'Informational response (1xx). The request was received, continuing process.',
+-     2: 'Successful response (2xx). The request was successfully received, understood, and accepted.',
+-     3: 'Redirection response (3xx). Further action needs to be taken in order to complete the request.',
+-     4: 'Client error response (4xx). The request contains bad syntax or cannot be fulfilled.',
+-     5: 'Server error response (5xx). The server failed to fulfill a valid request.',
++     1: 'The request has been received and is still being processed.',
++     2: 'The request was successfully processed.',
++     3: 'The request requires redirection to another resource.',
++     4: 'The request contains a client-side error.',
++     5: 'The server failed to process a valid request.',
+    };
+    return ranges[firstDigit] || 'Unknown status code range. This is not a standard HTTP status code.';
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking for linter errors in the modified files:
+
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 3 files</summary>
+      
+Lint paths:
+
+- `packages/insomnia/src/common/constants.ts`
+- `packages/insomnia/src/common/response-utils.ts`
+- `packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+## Summary of Changes
+
+1. Updated all status code descriptions in `RESPONSE_CODE_DESCRIPTIONS`:
+   - 1xx codes: Updated 100, 101; added 102, 103
+   - 2xx codes: Updated 200, 201, 202, 203, 204, 205, 206, 207, 208, 226
+   - 3xx codes: Updated 300, 301, 302, 303, 304, 307, 308
+   - 4xx codes: Updated all provided codes (400-451)
+   - 5xx codes: Updated all provided codes (500-511)
+
+2. Added 102 and 103 to `RESPONSE_CODE_REASONS`.
+
+3. Updated class-based fallback descriptions in:
+   - `response-utils.ts` — Updated the `getStatusCodeDescription` function
+   - `status-code-explanation-panel.tsx` — Updated the `getClassBasedDescription` function
+
+The new fallback messages are:
+- 1xx → "The request has been received and is still being processed."
+- 2xx → "The request was successfully processed."
+- 3xx → "The request requires redirection to another resource."
+- 4xx → "The request contains a client-side error."
+- 5xx → "The server failed to process a valid request."
+
+All files pass linting with no errors. The status code descriptions are updated for User Story 1.
+
+---
+
