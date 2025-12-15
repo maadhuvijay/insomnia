@@ -30,9 +30,9 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 
 **Purpose**: Project initialization and directory structure
 
-- [ ] T001 Create directory structure for new components in packages/insomnia/src/ui/components/response-status/
-- [ ] T002 Create directory structure for new components in packages/insomnia/src/ui/components/response-summary/
-- [ ] T003 [P] Verify RESPONSE_CODE_DESCRIPTIONS constant exists in packages/insomnia/src/common/constants.ts
+- [X] T001 Create directory structure for new components in packages/insomnia/src/ui/components/response-status/
+- [X] T002 Create directory structure for new components in packages/insomnia/src/ui/components/response-summary/
+- [X] T003 [P] Verify RESPONSE_CODE_DESCRIPTIONS constant exists in packages/insomnia/src/common/constants.ts
 
 ---
 
@@ -42,12 +42,12 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 [P] Implement getPerformanceCategory function in packages/insomnia/src/common/response-utils.ts
-- [ ] T005 [P] Implement getPerformanceIndicator function in packages/insomnia/src/common/response-utils.ts
-- [ ] T006 [P] Implement formatResponseSummary function in packages/insomnia/src/common/response-utils.ts
-- [ ] T007 [P] Implement getStatusCodeDescription function in packages/insomnia/src/common/response-utils.ts
-- [ ] T008 [P] Implement formatResponseSize function in packages/insomnia/src/common/response-utils.ts
-- [ ] T009 [P] Implement formatTimestamp function in packages/insomnia/src/common/response-utils.ts
+- [X] T004 [P] Implement getPerformanceCategory function in packages/insomnia/src/common/response-utils.ts
+- [X] T005 [P] Implement getPerformanceIndicator function in packages/insomnia/src/common/response-utils.ts
+- [X] T006 [P] Implement formatResponseSummary function in packages/insomnia/src/common/response-utils.ts
+- [X] T007 [P] Implement getStatusCodeDescription function in packages/insomnia/src/common/response-utils.ts
+- [X] T008 [P] Implement formatResponseSize function in packages/insomnia/src/common/response-utils.ts
+- [X] T009 [P] Implement formatTimestamp function in packages/insomnia/src/common/response-utils.ts
 
 **Checkpoint**: Foundation ready - utility functions complete, user story implementation can now begin in parallel
 
@@ -61,11 +61,11 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 
 ### Implementation for User Story 1
 
-- [ ] T010 [P] [US1] Create StatusCodeExplanationPanel component in packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx
-- [ ] T011 [US1] Integrate StatusCodeExplanationPanel into response-pane.tsx between TabList and TabPanel in packages/insomnia/src/ui/components/panes/response-pane.tsx
-- [ ] T012 [US1] Add loading state handling for StatusCodeExplanationPanel when response is executing in packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx
-- [ ] T013 [US1] Add handling for unknown/non-standard status codes in StatusCodeExplanationPanel in packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx
-- [ ] T014 [US1] Ensure StatusCodeExplanationPanel remains visible when switching between response view mode tabs in packages/insomnia/src/ui/components/panes/response-pane.tsx
+- [X] T010 [P] [US1] Create StatusCodeExplanationPanel component in packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx
+- [X] T011 [US1] Integrate StatusCodeExplanationPanel into response-pane.tsx between TabList and TabPanel in packages/insomnia/src/ui/components/panes/response-pane.tsx
+- [X] T012 [US1] Add loading state handling for StatusCodeExplanationPanel when response is executing in packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx
+- [X] T013 [US1] Add handling for unknown/non-standard status codes in StatusCodeExplanationPanel in packages/insomnia/src/ui/components/response-status/status-code-explanation-panel.tsx
+- [X] T014 [US1] Ensure StatusCodeExplanationPanel remains visible when switching between response view mode tabs in packages/insomnia/src/ui/components/panes/response-pane.tsx
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently. Users can see status code explanations for any HTTP response.
 
@@ -79,7 +79,7 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 
 ### Implementation for User Story 2
 
-- [ ] T015 [P] [US2] Modify TimeTag component to accept showPerformanceIndicator prop in packages/insomnia/src/ui/components/tags/time-tag.tsx
+- [X] T015 [P] [US2] Modify TimeTag component to accept showPerformanceIndicator prop in packages/insomnia/src/ui/components/tags/time-tag.tsx
 - [ ] T016 [US2] Add performance indicator visual (color/icon) to TimeTag component using getPerformanceIndicator utility in packages/insomnia/src/ui/components/tags/time-tag.tsx
 - [ ] T017 [US2] Update response-pane.tsx to pass showPerformanceIndicator={true} to TimeTag component in packages/insomnia/src/ui/components/panes/response-pane.tsx
 - [ ] T018 [US2] Add TailwindCSS styling for performance indicators (bg-success, bg-warning, bg-danger) in TimeTag component in packages/insomnia/src/ui/components/tags/time-tag.tsx

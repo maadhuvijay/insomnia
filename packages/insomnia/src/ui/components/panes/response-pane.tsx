@@ -28,6 +28,7 @@ import { ResponseCookiesViewer } from '../viewers/response-cookies-viewer';
 import { ResponseHeadersViewer } from '../viewers/response-headers-viewer';
 import { ResponseTimelineViewer } from '../viewers/response-timeline-viewer';
 import { ResponseViewer } from '../viewers/response-viewer';
+import { StatusCodeExplanationPanel } from '../response-status/status-code-explanation-panel';
 import { BlankPane } from './blank-pane';
 import { Pane, PaneHeader } from './pane';
 import { PlaceholderResponsePane } from './placeholder-response-pane';
@@ -217,6 +218,13 @@ export const ResponsePane: FC<Props> = ({ activeRequestId }) => {
             Console
           </Tab>
         </TabList>
+        {activeResponse && (
+          <StatusCodeExplanationPanel
+            statusCode={activeResponse.statusCode}
+            statusMessage={activeResponse.statusMessage}
+            isLoading={isExecuting}
+          />
+        )}
         <TabPanel className="flex w-full flex-1 flex-col overflow-hidden" id="preview">
           <Toolbar className="flex h-(--line-height-sm) w-full shrink-0 items-center border-b border-solid border-(--hl-md) px-2">
             <PreviewModeDropdown

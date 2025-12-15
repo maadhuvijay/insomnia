@@ -10,6 +10,7 @@ interface Props {
   className?: string;
   tooltipDelay?: number;
   steps?: TimingStep[];
+  showPerformanceIndicator?: boolean;
 }
 export const getTimeAndUnit = (milliseconds: number) => {
   let unit = 'ms';
@@ -34,7 +35,7 @@ export const getTimeAndUnit = (milliseconds: number) => {
 
   return { number, unit };
 };
-export const TimeTag: FC<Props> = memo(({ milliseconds, small, className, tooltipDelay, steps }) => {
+export const TimeTag: FC<Props> = memo(({ milliseconds, small, className, tooltipDelay, steps, showPerformanceIndicator }) => {
   const totalMs = steps?.reduce((acc, step) => acc + (step.duration || 0), 0) || milliseconds;
   const { number, unit } = getTimeAndUnit(totalMs);
   const timesandunits = steps?.map(step => {
