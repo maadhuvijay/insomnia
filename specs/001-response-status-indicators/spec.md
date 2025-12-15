@@ -63,6 +63,8 @@ As a developer or tester, I want to copy a concise summary of the API response t
    
    --------------------------
    
+   Request: [HTTP method] [URL]
+   
    Status: [status code] [status message]
    
    Response Time: [time] ms ([performance category])
@@ -71,7 +73,7 @@ As a developer or tester, I want to copy a concise summary of the API response t
    
    Timestamp: [timestamp]
    ```
-2. **Given** a response summary has been copied to the clipboard, **When** the user pastes it into a text field in another application (such as a ticket system, chat tool, or documentation), **Then** the pasted content displays in the structured format with header, separator line, and all key response information (status, response time with performance category, response size, timestamp).
+2. **Given** a response summary has been copied to the clipboard, **When** the user pastes it into a text field in another application (such as a ticket system, chat tool, or documentation), **Then** the pasted content displays in the structured format with header, separator line, and all key information including request method and URL, status, response time with performance category, response size, and timestamp.
 3. **Given** a request returns an error response, **When** the user copies the response summary, **Then** the summary includes error details in addition to standard response information.
 4. **Given** the user copies a response summary, **When** the copy action completes, **Then** the system provides visual feedback indicating the summary was successfully copied to the clipboard.
 
@@ -99,8 +101,8 @@ As a developer or tester, I want to copy a concise summary of the API response t
 - **FR-006**: System MUST use distinct visual indicators (colors, icons, or symbols) to differentiate between fast (<500ms), acceptable (500ms-3s), and slow (>3s) response times
 - **FR-007**: System MUST maintain performance indicator visibility throughout the response view lifecycle and ensure it remains positioned next to the response time tag
 - **FR-008**: System MUST provide a copy summary button in the Response Summary Strip header area that allows users to copy a concise response summary to their clipboard
-- **FR-009**: System MUST include status code, status message, response time, response size, and timestamp in the copied summary
-- **FR-010**: System MUST format the copied summary as structured plain text with the following format: header "API Response Summary", separator line (dashes), Status line (code and message), Response Time line (time in ms with performance category in parentheses), Response Size line, and Timestamp line, with blank lines between sections
+- **FR-009**: System MUST include HTTP method, URL, status code, status message, response time, response size, and timestamp in the copied summary
+- **FR-010**: System MUST format the copied summary as structured plain text with the following format: header "API Response Summary", separator line (dashes), Request line (HTTP method and URL), Status line (code and message), Response Time line (time in ms with performance category in parentheses), Response Size line, and Timestamp line, with blank lines between sections
 - **FR-011**: System MUST provide visual feedback when the copy action succeeds or fails
 - **FR-012**: System MUST handle error responses appropriately in all three features (status explanation, performance indicator, and summary copy)
 - **FR-013**: System MUST maintain consistency of status code explanations and performance indicators across all response viewing contexts (main response pane, response history, etc.)
@@ -110,7 +112,7 @@ As a developer or tester, I want to copy a concise summary of the API response t
 
 - **Response Status Information**: Contains status code, status message, and explanation text. Key attributes include the numeric status code, standard status message, and human-readable explanation.
 - **Performance Threshold**: Defines boundaries for categorizing response performance. Key attributes include threshold values (Fast: <500ms, Acceptable: 500ms-3s, Slow: >3s) and corresponding visual indicator types (colors, icons, or symbols).
-- **Response Summary**: Concise representation of key response details for sharing. Key attributes include status code, status message, response time, response size, timestamp, and formatted text representation.
+- **Response Summary**: Concise representation of key response details for sharing. Key attributes include HTTP method, URL, status code, status message, response time, response size, timestamp, and formatted text representation.
 
 ## Success Criteria *(mandatory)*
 
