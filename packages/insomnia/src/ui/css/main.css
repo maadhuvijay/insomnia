@@ -1203,6 +1203,15 @@ button {
 .text-success {
   color: var(--color-success);
 }
+.text-warning {
+  color: var(--color-warning);
+}
+.text-info {
+  color: var(--color-info);
+}
+.text-surprise {
+  color: var(--color-surprise);
+}
 .bg-info,
 .bg-http-method-OPTIONS,
 .bg-http-method-HEAD {
