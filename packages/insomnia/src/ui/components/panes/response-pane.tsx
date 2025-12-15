@@ -29,6 +29,7 @@ import { ResponseHeadersViewer } from '../viewers/response-headers-viewer';
 import { ResponseTimelineViewer } from '../viewers/response-timeline-viewer';
 import { ResponseViewer } from '../viewers/response-viewer';
 import { StatusCodeExplanationPanel } from '../response-status/status-code-explanation-panel';
+import { CopyResponseSummaryButton } from '../response-summary/copy-response-summary-button';
 import { BlankPane } from './blank-pane';
 import { Pane, PaneHeader } from './pane';
 import { PlaceholderResponsePane } from './placeholder-response-pane';
@@ -147,11 +148,29 @@ export const ResponsePane: FC<Props> = ({ activeRequestId }) => {
             />
             <SizeTag bytesRead={activeResponse.bytesRead} bytesContent={activeResponse.bytesContent} />
           </div>
-          <ResponseHistoryDropdown
-            activeResponse={activeResponse}
-            responses={responses}
-            requestVersions={requestVersions}
-          />
+          <div className="flex items-center gap-2">
+            <CopyResponseSummaryButton
+              request={{
+                method: activeRequest.method,
+                url: activeRequest.url,
+                name: activeRequest.name,
+              }}
+              response={{
+                statusCode: activeResponse.statusCode,
+                statusMessage: activeResponse.statusMessage,
+                elapsedTime: activeResponse.elapsedTime,
+                bytesContent: activeResponse.bytesContent,
+                bytesRead: activeResponse.bytesRead,
+                created: activeResponse.created,
+                url: activeResponse.url,
+              }}
+            />
+            <ResponseHistoryDropdown
+              activeResponse={activeResponse}
+              responses={responses}
+              requestVersions={requestVersions}
+            />
+          </div>
         </PaneHeader>
       )}
       <Tabs

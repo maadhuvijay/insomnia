@@ -97,13 +97,13 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 
 ### Implementation for User Story 3
 
-- [ ] T020 [P] [US3] Create CopyResponseSummaryButton component in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
-- [ ] T021 [US3] Implement clipboard copy functionality using window.clipboard.writeText() in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
-- [ ] T022 [US3] Implement formatResponseSummary integration to generate structured text summary in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
-- [ ] T023 [US3] Add visual feedback (success/error) for copy action in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
-- [ ] T024 [US3] Integrate CopyResponseSummaryButton into response-pane.tsx PaneHeader next to ResponseHistoryDropdown in packages/insomnia/src/ui/components/panes/response-pane.tsx
-- [ ] T025 [US3] Add error handling for clipboard access failures in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
-- [ ] T026 [US3] Ensure copy summary includes all required fields (method, URL, status, time with category, size, timestamp) in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- [X] T020 [P] [US3] Create CopyResponseSummaryButton component in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- [X] T021 [US3] Implement clipboard copy functionality using window.clipboard.writeText() in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- [X] T022 [US3] Implement formatResponseSummary integration to generate structured text summary in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- [X] T023 [US3] Add visual feedback (success/error) for copy action in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- [X] T024 [US3] Integrate CopyResponseSummaryButton into response-pane.tsx PaneHeader next to ResponseHistoryDropdown in packages/insomnia/src/ui/components/panes/response-pane.tsx
+- [X] T025 [US3] Add error handling for clipboard access failures in CopyResponseSummaryButton in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
+- [X] T026 [US3] Ensure copy summary includes all required fields (method, URL, status, time with category, size, timestamp) in packages/insomnia/src/ui/components/response-summary/copy-response-summary-button.tsx
 
 **Checkpoint**: At this point, all three user stories should be independently functional. Users can see status code explanations, performance indicators, and copy response summaries.
 
