@@ -38,15 +38,21 @@ export const StatusCodeExplanationPanel: FC<StatusCodeExplanationPanelProps> = m
   isLoading = false,
   className,
 }) => {
+  // Handle edge cases: invalid status codes
+  const isValidStatusCode = Number.isFinite(statusCode) && statusCode >= 0 && statusCode <= 999;
+  const safeStatusCode = isValidStatusCode ? statusCode : 0;
+  
   // Get description from constants or fall back to class-based description
-  const description = RESPONSE_CODE_DESCRIPTIONS[statusCode] || getClassBasedDescription(statusCode);
-  const isUnknown = !RESPONSE_CODE_DESCRIPTIONS[statusCode];
+  const description = isValidStatusCode 
+    ? (RESPONSE_CODE_DESCRIPTIONS[safeStatusCode] || getClassBasedDescription(safeStatusCode))
+    : 'Invalid status code. This is not a valid HTTP status code.';
+  const isUnknown = isValidStatusCode && !RESPONSE_CODE_DESCRIPTIONS[safeStatusCode];
   
   // Get status message, preferring the provided one or falling back to constants
   const isStatusMessageUnknown = statusMessage === 'Unknown' || statusMessage === 'unknown';
-  let statusMessageToShow = statusMessage || RESPONSE_CODE_REASONS[statusCode];
-  if (isStatusMessageUnknown) {
-    statusMessageToShow = RESPONSE_CODE_REASONS[statusCode] || statusMessage || 'Unknown';
+  let statusMessageToShow = statusMessage || (isValidStatusCode ? RESPONSE_CODE_REASONS[safeStatusCode] : undefined);
+  if (isStatusMessageUnknown && isValidStatusCode) {
+    statusMessageToShow = RESPONSE_CODE_REASONS[safeStatusCode] || statusMessage || 'Unknown';
   }
 
   // Loading state: show a simple loading indicator
@@ -67,7 +73,7 @@ export const StatusCodeExplanationPanel: FC<StatusCodeExplanationPanelProps> = m
   }
 
   // Determine status color based on first digit (matching StatusTag logic)
-  const firstChar = (statusCode + '')[0] || '';
+  const firstChar = isValidStatusCode ? (safeStatusCode + '')[0] || '' : '0';
   const statusColorClass =
     {
       '1': 'text-info',
@@ -85,13 +91,13 @@ export const StatusCodeExplanationPanel: FC<StatusCodeExplanationPanelProps> = m
         className
       )}
       aria-live="polite"
-      aria-label={`Status code ${statusCode} explanation`}
+      aria-label={`Status code ${safeStatusCode} explanation`}
     >
       <div className="flex items-start gap-2">
         <div className="flex-1">
           <div className="mb-1 flex items-center gap-2">
             <strong className={classnames('text-base', statusColorClass)}>
-              {statusCode}
+              {safeStatusCode}
             </strong>
             {statusMessageToShow && (
               <span className="text-(--hl)">{statusMessageToShow}</span>

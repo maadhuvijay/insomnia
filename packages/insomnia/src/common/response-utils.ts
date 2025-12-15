@@ -12,14 +12,23 @@ import { describeByteSize } from './misc';
  * getPerformanceCategory(200) // returns 'fast'
  * getPerformanceCategory(1000) // returns 'moderate'
  * getPerformanceCategory(2000) // returns 'slow'
+ * getPerformanceCategory(0) // returns 'fast' (edge case: 0ms treated as fast)
+ * getPerformanceCategory(-1) // returns 'fast' (edge case: negative times treated as fast)
  */
 export function getPerformanceCategory(milliseconds: number): PerformanceCategory {
+  // Handle edge cases: negative times, NaN, or invalid values treated as fast
+  if (!Number.isFinite(milliseconds) || milliseconds < 0) {
+    return 'fast';
+  }
+  
+  // 0ms is treated as fast (instantaneous response)
   if (milliseconds < 500) {
     return 'fast';
   }
   if (milliseconds <= 1500) {
     return 'moderate';
   }
+  // Very large times (>1500ms) are categorized as slow
   return 'slow';
 }
 
@@ -87,17 +96,22 @@ export function formatResponseSummary(
     url?: string;
   }
 ): string {
-  const performanceCategory = getPerformanceCategory(response.elapsedTime);
-  const performanceLabel = getPerformanceIndicator(response.elapsedTime).label;
-  const responseSize = formatResponseSize(Math.max(response.bytesContent, response.bytesRead));
+  // Handle edge cases: ensure elapsedTime is valid
+  const elapsedTime = Number.isFinite(response.elapsedTime) && response.elapsedTime >= 0 
+    ? response.elapsedTime 
+    : 0;
+  
+  const performanceCategory = getPerformanceCategory(elapsedTime);
+  const performanceLabel = getPerformanceIndicator(elapsedTime).label;
+  const responseSize = formatResponseSize(Math.max(response.bytesContent || 0, response.bytesRead || 0));
   const timestamp = formatTimestamp(response.created || Date.now());
   
   const lines = [
-    `Request: ${request.method} ${request.url}`,
+    `Request: ${request.method || 'UNKNOWN'} ${request.url || 'N/A'}`,
     request.name ? `Name: ${request.name}` : null,
     '',
-    `Status: ${response.statusCode} ${response.statusMessage || ''}`.trim(),
-    `Time: ${response.elapsedTime}ms (${performanceLabel})`,
+    `Status: ${response.statusCode || 'N/A'} ${(response.statusMessage || '').trim()}`,
+    `Time: ${elapsedTime}ms (${performanceLabel})`,
     `Size: ${responseSize}`,
     `Timestamp: ${timestamp}`,
   ].filter(Boolean);
@@ -116,8 +130,15 @@ export function formatResponseSummary(
  * // returns "Server cannot find requested resource. This response code is probably the most famous one due to how frequently it occurs on the web."
  * getStatusCodeDescription(299)
  * // returns generic class-based description for 2xx range
+ * getStatusCodeDescription(999)
+ * // returns "Unknown status code" for non-standard codes
  */
 export function getStatusCodeDescription(statusCode: number): string {
+  // Handle edge cases: invalid status codes
+  if (!Number.isFinite(statusCode) || statusCode < 0 || statusCode > 999) {
+    return 'Invalid status code';
+  }
+
   // Check if we have a specific description for this status code
   const description = RESPONSE_CODE_DESCRIPTIONS[statusCode];
   if (description) {
@@ -146,9 +167,13 @@ export function getStatusCodeDescription(statusCode: number): string {
  * @example
  * formatResponseSize(1024) // returns "1 KB"
  * formatResponseSize(1536) // returns "1.5 KB"
+ * formatResponseSize(0) // returns "0 B"
+ * formatResponseSize(-1) // returns "0 B" (edge case: negative sizes)
  */
 export function formatResponseSize(bytes: number): string {
-  return describeByteSize(bytes, true);
+  // Handle edge cases: invalid or negative sizes
+  const validBytes = Number.isFinite(bytes) && bytes >= 0 ? bytes : 0;
+  return describeByteSize(validBytes, true);
 }
 
 /**

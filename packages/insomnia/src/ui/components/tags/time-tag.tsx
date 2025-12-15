@@ -63,6 +63,8 @@ export const TimeTag: FC<Props> = memo(({ milliseconds, small, className, toolti
         },
         className,
       )}
+      role="group"
+      aria-label={`Response time: ${number} ${unit}${performanceIndicator ? `, ${performanceIndicator.label}` : ''}`}
     >
       <div className="flex items-center gap-1">
         {performanceIndicator && (
@@ -71,7 +73,8 @@ export const TimeTag: FC<Props> = memo(({ milliseconds, small, className, toolti
               'h-2 w-2 rounded-full',
               performanceIndicator.indicatorClass,
             )}
-            aria-label={performanceIndicator.label}
+            role="img"
+            aria-label={`Performance indicator: ${performanceIndicator.label}`}
             title={performanceIndicator.label}
           />
         )}

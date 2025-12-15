@@ -113,15 +113,15 @@ description: "Task list for Enhanced Response Status Indicators feature implemen
 
 **Purpose**: Improvements that affect multiple user stories and final integration
 
-- [ ] T027 [P] Verify all three features work together in response-pane.tsx without conflicts
-- [ ] T028 [P] Ensure status code explanation panel maintains visibility across all tab views (Preview, Headers, Cookies, Test Results)
-- [ ] T029 [P] Verify performance indicator appears correctly in Response Summary Strip header for all response types
-- [ ] T030 [P] Test copy summary functionality with various response types (HTTP, WebSocket, gRPC, MCP)
-- [ ] T031 [P] Add accessibility attributes (aria-live, aria-label) to new components
-- [ ] T032 [P] Verify edge case handling (non-standard status codes, 0ms times, cancelled requests, very large response times)
-- [ ] T033 [P] Run quickstart.md validation scenarios
-- [ ] T034 [P] Code cleanup and refactoring for consistency with existing Insomnia patterns across all modified files
-- [ ] T035 [P] Verify performance goals met (status panel render <50ms, indicator calculation <1ms, clipboard copy <100ms)
+- [X] T027 [P] Verify all three features work together in response-pane.tsx without conflicts
+- [X] T028 [P] Ensure status code explanation panel maintains visibility across all tab views (Preview, Headers, Cookies, Test Results)
+- [X] T029 [P] Verify performance indicator appears correctly in Response Summary Strip header for all response types
+- [X] T030 [P] Test copy summary functionality with various response types (HTTP, WebSocket, gRPC, MCP)
+- [X] T031 [P] Add accessibility attributes (aria-live, aria-label) to new components
+- [X] T032 [P] Verify edge case handling (non-standard status codes, 0ms times, cancelled requests, very large response times)
+- [X] T033 [P] Run quickstart.md validation scenarios
+- [X] T034 [P] Code cleanup and refactoring for consistency with existing Insomnia patterns across all modified files
+- [X] T035 [P] Verify performance goals met (status panel render <50ms, indicator calculation <1ms, clipboard copy <100ms)
 
 ---
 
