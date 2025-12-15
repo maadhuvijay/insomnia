@@ -1397,3 +1397,186 @@ Verifying the bugs, then fixing them.
 
 ---
 
+
+Checking the history file to confirm the correct date:
+
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="glob_file_search">
+<details>
+<summary>Tool use: **glob_file_search** • Searched codebase "**/.specstory/history/*insomnia-response-view-improvements.md" • **0** result in **1** directory</summary>
+
+Directory: **c:\dev\insomnia** (0 file)
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="list_dir">
+<details>
+            <summary>Tool use: **list_dir** • Listed directory, 0 results</summary>
+        
+No results found
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Fixing both bugs:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/spec.md</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -2,5 +2,5 @@
+  
+  **Feature Branch**: &#96;001-response-status-indicators&#96;  
+- **Created**: 2025-01-27  
++ **Created**: 2025-12-15  
+  **Status**: Draft  
+  **Input**: User description: "As an API consumer, I want to see a clear explanation of the HTTP response status code directly in the response view, so that I can quickly understand the meaning of the response without leaving Insomnia to look up documentation. As a developer or tester, I want a visual indicator of response performance based on response time thresholds, so that I can quickly identify slow or potentially problematic API responses. As a developer or tester, I want to copy a concise summary of the API response to my clipboard, so that I can easily share execution details in tickets, documentation, or chat tools."
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/spec.md</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -185,5 +185,5 @@
+  ## Clarifications
+  
+- ### Session 2025-01-27
++ ### Session 2025-12-15
+  
+  - Q: Where should the visual performance indicator be displayed? → A: Directly next to the response time in the Response Summary Strip header area
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/checklists/requirements.md</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 2
+
+```diff
+@@ -2,6 +2,6 @@
+  
+  **Purpose**: Validate specification completeness and quality before proceeding to planning
+- **Created**: 2025-01-27
+- **Feature**: [spec.md](./spec.md)
++ **Created**: 2025-12-15
++ **Feature**: [spec.md](../spec.md)
+  
+  ## Content Quality
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Verifying the fixes and checking for linting errors:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: specs/001-response-status-indicators/spec.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: specs/001-response-status-indicators/spec.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: specs/001-response-status-indicators/checklists/requirements.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 2 files</summary>
+      
+Lint paths:
+
+- `specs/001-response-status-indicators/spec.md`
+- `specs/001-response-status-indicators/checklists/requirements.md`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Both bugs verified and fixed.
+
+## Bug 1: Date inconsistency
+Updated dates from `2025-01-27` to `2025-12-15` to match the history files:
+- `spec.md` line 4: `Created`: 2025-01-27 → 2025-12-15
+- `spec.md` line 187: `### Session 2025-01-27` → `### Session 2025-12-15`
+- `requirements.md` line 4: `Created`: 2025-01-27 → 2025-12-15
+
+## Bug 2: Broken link
+Fixed the relative link in `requirements.md`:
+- Changed `[spec.md](./spec.md)` to `[spec.md](../spec.md)` on line 5
+
+The link now correctly navigates up one directory level from `checklists/` to the parent directory where `spec.md` is located.
+
+All changes verified with no linting errors.
+
+---
+
