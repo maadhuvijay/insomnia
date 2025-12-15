@@ -2404,3 +2404,545 @@ This provides full context when sharing response details in tickets, documentati
 
 ---
 
+_**User (2025-12-14 04:34Z)**_
+
+update user stor1 acceptance criteria to
+
+Acceptance Criteria
+
+
+
+Visibility & Placement
+
+The Status Helper Panel appears only after a response is received
+
+The panel is displayed between the response tabs (Preview/Headers/etc.) and the response body
+
+The panel is visible when the Preview tab is active
+
+Content
+
+The panel displays:
+
+HTTP status code (e.g., 200)
+
+Status label (e.g., OK)
+
+A plain-language description of the status code
+
+For commonly used status codes (200, 401, 403, 404, 429, 5xx), a specific description is shown
+
+For unsupported or unknown codes, a generic class-based description is shown (2xx, 4xx, 5xx)
+
+Behavior
+
+The panel updates immediately after each request execution
+
+The panel reflects the current request’s response only
+
+The panel does not appear when:
+
+No request has been sent
+
+The request fails without a response
+
+Stability
+
+The panel does not cause UI errors if:
+
+status message is missing
+
+response body is empty
+
+response headers are missing
+
+user story2 acceptance criteria to 
+
+Acceptance Criteria
+
+
+
+Indicator Display
+
+A response time SLA indicator is displayed next to the existing response time metric
+
+The indicator is shown only after a response is received
+
+SLA Thresholds
+
+Response times are classified as:
+
+Green (Fast): < 500 ms
+
+Yellow (Moderate): 500–1500 ms
+
+Red (Slow): > 1500 ms
+
+Visual Behavior
+
+The indicator color updates dynamically based on the response time
+
+The indicator updates on every request execution
+
+The indicator does not appear if:
+
+No response exists
+
+Response timing data is unavailable
+
+Consistency
+
+The indicator appears consistently across:
+
+Successful responses (2xx)
+
+Client errors (4xx)
+
+Server errors (5xx)
+
+
+
+user story3 acceptance criteria to 
+
+Acceptance Criteria
+
+Button Visibility
+
+
+
+A “Copy Response Summary” button is displayed:
+
+
+
+In the response metadata area (near status/time/size)
+
+
+
+Only after a response has been received
+
+
+
+Copied Content
+
+
+
+Clicking the button copies a summary that includes:
+
+
+
+HTTP method (e.g., GET)
+
+
+
+Request URL
+
+
+
+Response status code and label
+
+
+
+Response time (ms)
+
+
+
+Response size (bytes)
+
+
+
+Execution timestamp
+
+
+
+Clipboard Behavior
+
+
+
+The summary is copied to the system clipboard
+
+
+
+The copied content is plain text and human-readable
+
+
+
+A visual confirmation (toast or subtle feedback) is shown after copying
+
+
+
+Stability
+
+
+
+Copying does not fail if:
+
+
+
+Response body is empty
+
+
+
+Headers are missing
+
+
+
+Timestamp is unavailable
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Updating acceptance criteria for all three user stories with the detailed format. Also updating the performance thresholds in User Story 2 to match the new criteria.
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: specs/001-response-status-indicators/spec.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/spec.md</summary>
+
+**Chunk 1**
+Lines added: 24, lines removed: 6
+
+```diff
+@@ -18,11 +18,29 @@
+  **Independent Test**: Can be fully tested by viewing any HTTP response with a status code and verifying that the explanation text is visible in a dedicated panel positioned between the response view mode tabs and the response content area, without requiring hover interactions or external documentation lookups.
+  
+- **Acceptance Scenarios**:
++ **Acceptance Criteria**:
++ 
++ **Visibility &amp; Placement**
+  
+- 1. **Given** a request has been executed and returned an HTTP response with status code 404, **When** the user views the response pane, **Then** a status code description panel appears between the response view mode tabs and the response content area, displaying the status code along with a clear explanation text such as "Server cannot find requested resource. This response code is probably the most famous one due to how frequently it occurs on the web."
+- 2. **Given** a request returns a successful 200 status code, **When** the user views the response pane, **Then** a status code description panel appears between the response view mode tabs and the response content area, displaying "200 OK" along with an explanation such as "The request has succeeded."
+- 3. **Given** a request returns a status code that is not in the standard HTTP status code list, **When** the user views the response pane, **Then** a status code description panel appears between the response view mode tabs and the response content area, displaying the status code with appropriate handling indicating the code is non-standard or unknown.
+- 4. **Given** a response is still loading, **When** the user views the response pane, **Then** the status code description panel (positioned between the response view mode tabs and the response content area) shows appropriate loading state without displaying incorrect information.
+- 5. **Given** the user switches between different response view mode tabs (Preview, Headers, Cookies, etc.), **When** the user views the response pane, **Then** the status code description panel remains visible between the tabs and the content area for the selected view mode, consistently providing status code context.
++ 1. **Given** a request has been executed and a response is received, **When** the user views the response pane, **Then** the Status Helper Panel appears between the response tabs (Preview/Headers/etc.) and the response body.
++ 2. **Given** the Preview tab is active, **When** the user views the response pane, **Then** the Status Helper Panel is visible.
++ 3. **Given** no request has been sent, **When** the user views the response pane, **Then** the Status Helper Panel does not appear.
++ 4. **Given** a request fails without a response, **When** the user views the response pane, **Then** the Status Helper Panel does not appear.
++ 
++ **Content**
++ 
++ 5. **Given** a request returns a response with status code 200, **When** the user views the response pane, **Then** the Status Helper Panel displays the HTTP status code (200), status label (OK), and a plain-language description of the status code.
++ 6. **Given** a request returns a commonly used status code (200, 401, 403, 404, 429, or any 5xx), **When** the user views the response pane, **Then** the Status Helper Panel displays a specific description for that status code.
++ 7. **Given** a request returns an unsupported or unknown status code, **When** the user views the response pane, **Then** the Status Helper Panel displays a generic class-based description (2xx, 4xx, 5xx) based on the status code range.
++ 
++ **Behavior**
++ 
++ 8. **Given** a request is executed, **When** the response is received, **Then** the Status Helper Panel updates immediately after the request execution.
++ 9. **Given** multiple requests have been executed, **When** the user views the response pane, **Then** the Status Helper Panel reflects the current request's response only.
++ 
++ **Stability**
++ 
++ 10. **Given** a response is received with a missing status message, **When** the user views the response pane, **Then** the Status Helper Panel displays without causing UI errors.
++ 11. **Given** a response is received with an empty response body, **When** the user views the response pane, **Then** the Status Helper Panel displays without causing UI errors.
++ 12. **Given** a response is received with missing response headers, **When** the user views the response pane, **Then** the Status Helper Panel displays without causing UI errors.
+  
+  ---
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/spec.md</summary>
+
+**Chunk 1**
+Lines added: 23, lines removed: 6
+
+```diff
+@@ -56,11 +56,28 @@
+  **Independent Test**: Can be fully tested by executing requests with varying response times and verifying that visual indicators (such as color coding or icons) appear directly next to the response time tag based on predefined performance thresholds, helping users quickly identify slow responses.
+  
+- **Acceptance Scenarios**:
++ **Acceptance Criteria**:
++ 
++ **Indicator Display**
+  
+- 1. **Given** a request completes with a response time of 200 milliseconds (under 500ms threshold), **When** the user views the response pane, **Then** the Response Summary Strip header displays a visual indicator directly next to the response time (such as green color or fast icon) indicating the response is fast (&lt;500ms threshold).
+- 2. **Given** a request completes with a response time of 2 seconds (within 500ms-3s range), **When** the user views the response pane, **Then** the Response Summary Strip header displays a visual indicator directly next to the response time (such as yellow/orange color or warning icon) indicating the response is acceptable (500ms-3s threshold range).
+- 3. **Given** a request completes with a response time of 5 seconds (exceeding 3s threshold), **When** the user views the response pane, **Then** the Response Summary Strip header displays a visual indicator directly next to the response time (such as red color or alert icon) indicating the response is slow (&gt;3s threshold).
+- 4. **Given** multiple requests are executed with different response times, **When** the user views the response history or compares responses, **Then** visual performance indicators are consistently applied directly next to each response time tag across all responses, making it easy to identify patterns.
+- 5. **Given** a request fails or times out, **When** the user views the response pane, **Then** the performance indicator (positioned next to the response time) reflects the error state appropriately, not just based on elapsed time.
++ 1. **Given** a request has been executed and a response is received, **When** the user views the response pane, **Then** a response time SLA indicator is displayed next to the existing response time metric.
++ 2. **Given** no response exists, **When** the user views the response pane, **Then** the response time SLA indicator does not appear.
++ 3. **Given** response timing data is unavailable, **When** the user views the response pane, **Then** the response time SLA indicator does not appear.
++ 
++ **SLA Thresholds**
++ 
++ 4. **Given** a request completes with a response time under 500ms, **When** the user views the response pane, **Then** the indicator displays as Green (Fast).
++ 5. **Given** a request completes with a response time between 500ms and 1500ms, **When** the user views the response pane, **Then** the indicator displays as Yellow (Moderate).
++ 6. **Given** a request completes with a response time over 1500ms, **When** the user views the response pane, **Then** the indicator displays as Red (Slow).
++ 
++ **Visual Behavior**
++ 
++ 7. **Given** a request is executed, **When** the response time is calculated, **Then** the indicator color updates dynamically based on the response time.
++ 8. **Given** a request is executed, **When** the response is received, **Then** the indicator updates on every request execution.
++ 
++ **Consistency**
++ 
++ 9. **Given** a request returns a successful response (2xx), **When** the user views the response pane, **Then** the indicator appears consistently.
++ 10. **Given** a request returns a client error (4xx), **When** the user views the response pane, **Then** the indicator appears consistently.
++ 11. **Given** a request returns a server error (5xx), **When** the user views the response pane, **Then** the indicator appears consistently.
+  
+  ---
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/spec.md</summary>
+
+**Chunk 1**
+Lines added: 16, lines removed: 2
+
+```diff
+@@ -91,7 +91,21 @@
+  **Independent Test**: Can be fully tested by executing a request, viewing the response, and using a copy action to verify that a well-formatted summary containing key response details is copied to the clipboard and can be pasted into external applications.
+  
+- **Acceptance Scenarios**:
++ **Acceptance Criteria**:
++ 
++ **Button Visibility**
+  
+- 1. **Given** a request has been executed and a response is displayed, **When** the user clicks the copy summary button in the Response Summary Strip header area, **Then** a concise summary is copied to the clipboard in structured plain text format with the following structure:
++ 1. **Given** a request has been executed and a response is received, **When** the user views the response pane, **Then** a "Copy Response Summary" button is displayed in the response metadata area (near status/time/size).
++ 2. **Given** no response has been received, **When** the user views the response pane, **Then** the "Copy Response Summary" button is not displayed.
++ 
++ **Copied Content**
++ 
++ 3. **Given** a request has been executed and a response is displayed, **When** the user clicks the "Copy Response Summary" button, **Then** a summary is copied to the clipboard that includes:
++    - HTTP method (e.g., GET)
++    - Request URL
++    - Response status code and label
++    - Response time (ms)
++    - Response size (bytes)
++    - Execution timestamp
++ 4. **Given** a response summary has been copied to the clipboard, **When** the user pastes it into a text field in another application, **Then** the pasted content is plain text and human-readable in the following format:
+     &#96;&#96;&#96;
+     API Response Summary
+```
+
+**Chunk 2**
+Lines added: 11, lines removed: 3
+
+```diff
+@@ -109,7 +123,15 @@
+     Timestamp: [timestamp]
+     &#96;&#96;&#96;
+- 2. **Given** a response summary has been copied to the clipboard, **When** the user pastes it into a text field in another application (such as a ticket system, chat tool, or documentation), **Then** the pasted content displays in the structured format with header, separator line, and all key information including request method and URL, status, response time with performance category, response size, and timestamp.
+- 3. **Given** a request returns an error response, **When** the user copies the response summary, **Then** the summary includes error details in addition to standard response information.
+- 4. **Given** the user copies a response summary, **When** the copy action completes, **Then** the system provides visual feedback indicating the summary was successfully copied to the clipboard.
++ 
++ **Clipboard Behavior**
++ 
++ 5. **Given** the user clicks the "Copy Response Summary" button, **When** the copy action completes, **Then** the summary is copied to the system clipboard.
++ 6. **Given** the user clicks the "Copy Response Summary" button, **When** the copy action completes, **Then** a visual confirmation (toast or subtle feedback) is shown after copying.
++ 
++ **Stability**
++ 
++ 7. **Given** a response is received with an empty response body, **When** the user clicks the "Copy Response Summary" button, **Then** copying does not fail.
++ 8. **Given** a response is received with missing headers, **When** the user clicks the "Copy Response Summary" button, **Then** copying does not fail.
++ 9. **Given** a response is received with an unavailable timestamp, **When** the user clicks the "Copy Response Summary" button, **Then** copying does not fail.
+  
+  ---
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/spec.md</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 2
+
+```diff
+@@ -155,6 +155,6 @@
+  - **FR-003**: System MUST display status code explanations for all standard HTTP status codes (1xx, 2xx, 3xx, 4xx, 5xx ranges)
+  - **FR-004**: System MUST handle unknown or non-standard status codes gracefully with appropriate messaging
+- - **FR-005**: System MUST display visual performance indicators based on response time thresholds directly next to the response time in the Response Summary Strip header area, using thresholds of: Fast (&lt;500ms), Acceptable (500ms-3s), Slow (&gt;3s)
+- - **FR-006**: System MUST use distinct visual indicators (colors, icons, or symbols) to differentiate between fast (&lt;500ms), acceptable (500ms-3s), and slow (&gt;3s) response times
++ - **FR-005**: System MUST display visual performance indicators based on response time thresholds directly next to the response time in the Response Summary Strip header area, using thresholds of: Green/Fast (&lt;500ms), Yellow/Moderate (500ms-1500ms), Red/Slow (&gt;1500ms)
++ - **FR-006**: System MUST use distinct visual indicators (colors) to differentiate between fast (&lt;500ms - Green), moderate (500ms-1500ms - Yellow), and slow (&gt;1500ms - Red) response times
+  - **FR-007**: System MUST maintain performance indicator visibility throughout the response view lifecycle and ensure it remains positioned next to the response time tag
+  - **FR-008**: System MUST provide a copy summary button in the Response Summary Strip header area that allows users to copy a concise response summary to their clipboard
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/spec.md</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -169,5 +169,5 @@
+  
+  - **Response Status Information**: Contains status code, status message, and explanation text. Key attributes include the numeric status code, standard status message, and human-readable explanation.
+- - **Performance Threshold**: Defines boundaries for categorizing response performance. Key attributes include threshold values (Fast: &lt;500ms, Acceptable: 500ms-3s, Slow: &gt;3s) and corresponding visual indicator types (colors, icons, or symbols).
++ - **Performance Threshold**: Defines boundaries for categorizing response performance. Key attributes include threshold values (Green/Fast: &lt;500ms, Yellow/Moderate: 500ms-1500ms, Red/Slow: &gt;1500ms) and corresponding visual indicator colors.
+  - **Response Summary**: Concise representation of key response details for sharing. Key attributes include HTTP method, URL, status code, status message, response time, response size, timestamp, and formatted text representation.
+  
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/spec.md</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -180,5 +180,5 @@
+  - **SC-003**: Users can copy and share a complete response summary in under 5 seconds, including the copy action and pasting into an external application
+  - **SC-004**: The status code explanation feature reduces the need for users to look up HTTP status code documentation by at least 80% for standard status codes
+- - **SC-005**: Performance indicators correctly categorize response times (Fast: &lt;500ms, Acceptable: 500ms-3s, Slow: &gt;3s) with 100% accuracy based on defined thresholds
++ - **SC-005**: Performance indicators correctly categorize response times (Green/Fast: &lt;500ms, Yellow/Moderate: 500ms-1500ms, Red/Slow: &gt;1500ms) with 100% accuracy based on defined thresholds
+  - **SC-006**: Response summaries copied to clipboard are successfully pasted into external applications (tickets, chat, documentation) with 100% formatting integrity
+  
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/spec.md</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -188,5 +188,5 @@
+  
+  - Q: Where should the visual performance indicator be displayed? → A: Directly next to the response time in the Response Summary Strip header area
+- - Q: What are the specific response time thresholds that determine fast, acceptable, and slow performance categories? → A: Fast: &lt;500ms, Acceptable: 500ms-3s, Slow: &gt;3 seconds
++ - Q: What are the specific response time thresholds that determine fast, acceptable, and slow performance categories? → A: Green/Fast: &lt;500ms, Yellow/Moderate: 500ms-1500ms, Red/Slow: &gt;1500ms
+  - Q: What format should the copied response summary use? → A: Structured plain text with separators (dashes) and labeled fields, including header "API Response Summary", separator line, Status, Response Time with performance category, Response Size, and Timestamp
+  - Q: Where should users trigger the copy response summary action? → A: Button in Response Summary Strip header area (near status/time/size tags)
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: specs/001-response-status-indicators/spec.md</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -197,5 +197,5 @@
+  - Standard HTTP status code descriptions exist and can be used as the source of truth for explanations
+  - The platform supports clipboard operations for copying text to the system clipboard
+- - Performance thresholds are fixed at: Fast (&lt;500ms), Acceptable (500ms-3s), Slow (&gt;3s) based on web API response time expectations
++ - Performance thresholds are fixed at: Green/Fast (&lt;500ms), Yellow/Moderate (500ms-1500ms), Red/Slow (&gt;1500ms) based on web API response time expectations
+  - The response view UI can accommodate a status code description panel positioned between the response view mode tabs and the response content area without significantly disrupting the existing layout or user experience
+  
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `specs/001-response-status-indicators/spec.md`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updated acceptance criteria for all three user stories with the detailed format. Changes:
+
+## User Story 1 - HTTP Status Code Explanation
+- Replaced "Acceptance Scenarios" with "Acceptance Criteria"
+- Organized into: Visibility & Placement, Content, Behavior, Stability
+- Added 12 criteria covering panel visibility, content display, behavior, and error handling
+
+## User Story 2 - Response Performance Indicator
+- Replaced "Acceptance Scenarios" with "Acceptance Criteria"
+- Organized into: Indicator Display, SLA Thresholds, Visual Behavior, Consistency
+- Updated thresholds: Green/Fast: <500ms, Yellow/Moderate: 500ms-1500ms, Red/Slow: >1500ms (previously 500ms-3s)
+- Added 11 criteria covering indicator behavior and consistency
+
+## User Story 3 - Copy Response Summary
+- Replaced "Acceptance Scenarios" with "Acceptance Criteria"
+- Organized into: Button Visibility, Copied Content, Clipboard Behavior, Stability
+- Added 9 criteria covering button display, content format, clipboard behavior, and error handling
+
+## Additional Updates
+- Updated FR-005 and FR-006 to reflect the new thresholds (Green/Yellow/Red with 500ms-1500ms range)
+- Updated Performance Threshold entity definition
+- Updated SC-005 success criteria
+- Updated Clarifications section with new threshold values
+- Updated Assumptions section with new threshold values
+
+The specification now uses the structured acceptance criteria format and reflects the updated performance thresholds. All changes are consistent across the document.
+
+---
+

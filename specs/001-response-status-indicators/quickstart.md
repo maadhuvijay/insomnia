@@ -13,7 +13,7 @@ This guide provides a quick start for implementing the Enhanced Response Status 
 This feature adds three enhancements to the Insomnia response pane:
 
 1. **Status Code Explanation Panel** - Displays HTTP status code explanations between tabs and content
-2. **Performance Indicator** - Visual indicator next to response time showing fast/acceptable/slow
+2. **Performance Indicator** - Visual indicator (response time SLA indicator) next to response time showing Green/Fast, Yellow/Moderate, Red/Slow
 3. **Copy Response Summary** - Button to copy formatted response summary to clipboard
 
 ## Implementation Checklist
@@ -66,8 +66,9 @@ This feature adds three enhancements to the Insomnia response pane:
    - Ensure indicator appears in `PaneHeader` next to time
 
 3. **Write component tests**
-   - Test indicator display for fast/acceptable/slow categories
+   - Test indicator display for fast/moderate/slow categories (Green/Yellow/Red)
    - Test indicator with edge cases (0ms, cancelled requests)
+   - Test threshold boundaries (499ms, 500ms, 1499ms, 1500ms, 1501ms)
 
 ### Phase 4: Copy Response Summary
 
@@ -109,12 +110,12 @@ import type { PerformanceCategory } from '../../specs/001-response-status-indica
 
 export function getPerformanceCategory(milliseconds: number): PerformanceCategory {
   if (milliseconds < 500) {
-    return 'fast';
+    return 'fast'; // Green
   }
-  if (milliseconds <= 3000) {
-    return 'acceptable';
+  if (milliseconds <= 1500) {
+    return 'moderate'; // Yellow
   }
-  return 'slow';
+  return 'slow'; // Red
 }
 ```
 
@@ -125,13 +126,26 @@ export function getPerformanceCategory(milliseconds: number): PerformanceCategor
 import { RESPONSE_CODE_DESCRIPTIONS, RESPONSE_CODE_REASONS } from '../../../common/constants';
 import type { StatusCodeExplanationPanelProps } from '../../../../specs/001-response-status-indicators/contracts/component-interfaces';
 
+// Helper to get class-based description for unknown codes
+function getClassBasedDescription(statusCode: number): string {
+  const firstDigit = Math.floor(statusCode / 100);
+  const ranges: Record<number, string> = {
+    1: 'Informational response (1xx)',
+    2: 'Successful response (2xx)',
+    3: 'Redirection response (3xx)',
+    4: 'Client error response (4xx)',
+    5: 'Server error response (5xx)',
+  };
+  return ranges[firstDigit] || 'Unknown status code range';
+}
+
 export const StatusCodeExplanationPanel: FC<StatusCodeExplanationPanelProps> = ({
   statusCode,
   statusMessage,
   isLoading,
   className,
 }) => {
-  const description = RESPONSE_CODE_DESCRIPTIONS[statusCode] || 'Unknown Response Code';
+  const description = RESPONSE_CODE_DESCRIPTIONS[statusCode] || getClassBasedDescription(statusCode);
   const message = statusMessage || RESPONSE_CODE_REASONS[statusCode] || 'Unknown';
 
   if (isLoading) {
@@ -207,7 +221,8 @@ export const ResponsePane: FC<Props> = ({ activeRequestId }) => {
 ### Unit Tests
 - Test utility functions with various inputs
 - Test edge cases (0ms, negative times, missing data)
-- Test threshold boundaries (499ms, 500ms, 2999ms, 3000ms, 3001ms)
+- Test threshold boundaries (499ms, 500ms, 1499ms, 1500ms, 1501ms)
+- Test status code description with unknown codes (should return class-based descriptions)
 
 ### Component Tests
 - Test component rendering with different props

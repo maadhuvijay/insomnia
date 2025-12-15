@@ -19,16 +19,19 @@ This document defines the data structures, entities, and relationships for the E
 - `statusMessage: string | undefined` - The status message from the response (e.g., "OK", "Not Found")
 - `description: string` - Human-readable explanation of the status code
 - `isUnknown: boolean` - Whether the status code is non-standard or unknown
+- `classBasedDescription: string | null` - Generic class-based description (2xx, 4xx, 5xx) for unknown codes
 
 **Source**: 
 - `statusCode` and `statusMessage` come from `activeResponse.statusCode` and `activeResponse.statusMessage`
 - `description` is looked up from `RESPONSE_CODE_DESCRIPTIONS[statusCode]` constant
 - `isUnknown` is `true` when `RESPONSE_CODE_DESCRIPTIONS[statusCode]` is undefined
+- `classBasedDescription` is generated from status code range (200-299 → "2xx", 400-499 → "4xx", 500-599 → "5xx")
 
 **Validation Rules**:
 - `statusCode` must be a positive integer (0-999 range for HTTP status codes)
-- `description` defaults to "Unknown Response Code" if status code is not in `RESPONSE_CODE_DESCRIPTIONS`
+- `description` defaults to class-based description (2xx, 4xx, 5xx) if status code is not in `RESPONSE_CODE_DESCRIPTIONS`
 - `statusMessage` may be undefined or empty string
+- Panel should not display when no response exists or request fails without response
 
 **State Transitions**:
 - **Initial**: No response → No status information displayed
@@ -42,19 +45,19 @@ This document defines the data structures, entities, and relationships for the E
 
 **Attributes**:
 - `fastThreshold: number` - Upper bound for "fast" category (500ms)
-- `acceptableThreshold: number` - Upper bound for "acceptable" category (3000ms)
-- `slowThreshold: number` - Lower bound for "slow" category (3000ms)
+- `moderateThreshold: number` - Upper bound for "moderate" category (1500ms)
+- `slowThreshold: number` - Lower bound for "slow" category (1500ms)
 
 **Categories**:
-- `fast`: `elapsedTime < 500` (milliseconds)
-- `acceptable`: `500 <= elapsedTime <= 3000` (milliseconds)
-- `slow`: `elapsedTime > 3000` (milliseconds)
+- `fast` (Green): `elapsedTime < 500` (milliseconds)
+- `moderate` (Yellow): `500 <= elapsedTime <= 1500` (milliseconds)
+- `slow` (Red): `elapsedTime > 1500` (milliseconds)
 
 **Source**: Hard-coded constants (from feature spec requirements)
 
 **Validation Rules**:
 - Thresholds are fixed and not user-configurable (per spec)
-- `fastThreshold < acceptableThreshold === slowThreshold`
+- `fastThreshold < moderateThreshold === slowThreshold`
 - All thresholds are in milliseconds
 
 **State Transitions**: N/A (static configuration)
@@ -63,10 +66,10 @@ This document defines the data structures, entities, and relationships for the E
 
 **Purpose**: Represents the performance category of a response based on elapsed time.
 
-**Type**: `'fast' | 'acceptable' | 'slow'`
+**Type**: `'fast' | 'moderate' | 'slow'`
 
 **Attributes**:
-- `category: 'fast' | 'acceptable' | 'slow'` - The performance category
+- `category: 'fast' | 'moderate' | 'slow'` - The performance category (also referred to as "response time SLA indicator" in UI)
 - `elapsedTime: number` - Response time in milliseconds
 - `visualIndicator: PerformanceIndicator` - Visual representation (color, icon)
 
@@ -91,7 +94,7 @@ This document defines the data structures, entities, and relationships for the E
 - `statusCode: number` - HTTP status code
 - `statusMessage: string` - Status message
 - `responseTime: number` - Elapsed time in milliseconds
-- `performanceCategory: 'fast' | 'acceptable' | 'slow'` - Performance category
+- `performanceCategory: 'fast' | 'moderate' | 'slow'` - Performance category (Green/Fast, Yellow/Moderate, Red/Slow)
 - `responseSize: string` - Formatted response size (e.g., "1.2 KB")
 - `timestamp: string` - ISO 8601 formatted timestamp
 
@@ -146,7 +149,7 @@ activeResponse.statusCode
 ```
 activeResponse.elapsedTime
   → getPerformanceCategory(elapsedTime)
-  → Returns 'fast' | 'acceptable' | 'slow'
+  → Returns 'fast' | 'moderate' | 'slow'
   → TimeTag component with visual indicator
   → Display in PaneHeader next to time
 ```
@@ -164,7 +167,7 @@ activeRequest + activeResponse
 
 ### Non-Standard Status Codes
 - **Scenario**: Status code not in `RESPONSE_CODE_DESCRIPTIONS` (e.g., 299, 999)
-- **Handling**: Display status code with description "Unknown Response Code" or "Non-standard status code"
+- **Handling**: Display status code with generic class-based description (2xx, 4xx, 5xx) based on status code range
 
 ### Zero or Negative Response Times
 - **Scenario**: `elapsedTime === 0` or `elapsedTime < 0`
@@ -180,7 +183,7 @@ activeRequest + activeResponse
 
 ### Very Large Response Times
 - **Scenario**: `elapsedTime` exceeds normal ranges (hours, days)
-- **Handling**: Still categorize as "slow" (>3s), display with appropriate time unit (m/h)
+- **Handling**: Still categorize as "slow" (>1500ms), display with appropriate time unit (m/h)
 
 ### Clipboard Access Failures
 - **Scenario**: `window.clipboard.writeText()` throws error

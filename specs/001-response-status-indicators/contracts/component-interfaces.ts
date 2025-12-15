@@ -50,8 +50,11 @@ export interface CopyResponseSummaryButtonProps {
 
 /**
  * Performance category type
+ * - fast: <500ms (Green)
+ * - moderate: 500ms-1500ms (Yellow)
+ * - slow: >1500ms (Red)
  */
-export type PerformanceCategory = 'fast' | 'acceptable' | 'slow';
+export type PerformanceCategory = 'fast' | 'moderate' | 'slow';
 
 /**
  * Result of performance categorization

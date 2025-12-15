@@ -7,7 +7,7 @@
 
 ## Summary
 
-This feature adds three enhancements to the Insomnia response pane: (1) a visible status code explanation panel positioned between response view tabs and content area, (2) visual performance indicators next to response time tags based on thresholds (Fast: <500ms, Acceptable: 500ms-3s, Slow: >3s), and (3) a copy summary button that formats and copies response details to clipboard. The implementation leverages existing status code descriptions from `RESPONSE_CODE_DESCRIPTIONS` constant and integrates with the existing Response Summary Strip header area.
+This feature adds three enhancements to the Insomnia response pane: (1) a visible Status Helper Panel (status code explanation) positioned between response view tabs and content area, (2) visual response time SLA indicators next to response time tags based on thresholds (Green/Fast: <500ms, Yellow/Moderate: 500ms-1500ms, Red/Slow: >1500ms), and (3) a "Copy Response Summary" button that formats and copies response details to clipboard. The implementation leverages existing status code descriptions from `RESPONSE_CODE_DESCRIPTIONS` constant and integrates with the existing Response Summary Strip header area. For unknown status codes, the panel displays generic class-based descriptions (2xx, 4xx, 5xx) based on status code range.
 
 ## Technical Context
 
@@ -18,7 +18,7 @@ This feature adds three enhancements to the Insomnia response pane: (1) a visibl
 **Target Platform**: Electron desktop application (Windows, macOS, Linux)  
 **Project Type**: Desktop application (Electron + React)  
 **Performance Goals**: Status code explanation panel renders in <50ms, performance indicator calculation in <1ms, clipboard copy completes in <100ms  
-**Constraints**: Must maintain existing UI layout and not disrupt current response viewing workflow, must work across all response types (HTTP, WebSocket, gRPC, MCP), must handle edge cases (non-standard status codes, 0ms response times, cancelled requests)  
+**Constraints**: Must maintain existing UI layout and not disrupt current response viewing workflow, must work across all response types (HTTP, WebSocket, gRPC, MCP), must handle edge cases (non-standard status codes showing class-based descriptions, 0ms response times, cancelled requests, missing response data)  
 **Scale/Scope**: Single feature addition to existing response pane component, affects ~3 UI components, adds 1-2 new utility functions
 
 ## Constitution Check

@@ -11,12 +11,12 @@ import type { PerformanceCategory, PerformanceCategoryResult, ResponseSummaryDat
  * Categorizes response time into performance category
  * 
  * @param milliseconds - Response time in milliseconds
- * @returns Performance category: 'fast' (<500ms), 'acceptable' (500ms-3s), or 'slow' (>3s)
+ * @returns Performance category: 'fast' (<500ms - Green), 'moderate' (500ms-1500ms - Yellow), or 'slow' (>1500ms - Red)
  * 
  * @example
  * getPerformanceCategory(200) // returns 'fast'
- * getPerformanceCategory(1500) // returns 'acceptable'
- * getPerformanceCategory(5000) // returns 'slow'
+ * getPerformanceCategory(1000) // returns 'moderate'
+ * getPerformanceCategory(2000) // returns 'slow'
  */
 export function getPerformanceCategory(milliseconds: number): PerformanceCategory;
 
@@ -67,11 +67,13 @@ export function formatResponseSummary(
  * Gets status code description from constants
  * 
  * @param statusCode - HTTP status code
- * @returns Human-readable description of the status code, or "Unknown Response Code" if not found
+ * @returns Human-readable description of the status code, or class-based description (2xx, 4xx, 5xx) for unknown codes
  * 
  * @example
  * getStatusCodeDescription(404) 
  * // returns "Server cannot find requested resource. This response code is probably the most famous one due to how frequently it occurs on the web."
+ * getStatusCodeDescription(299)
+ * // returns generic class-based description for 2xx range
  */
 export function getStatusCodeDescription(statusCode: number): string;
 

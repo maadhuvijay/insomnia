@@ -12,23 +12,27 @@ This document consolidates research findings and technical decisions for impleme
 
 ### 1. Status Code Explanation Panel Implementation
 
-**Decision**: Use existing `RESPONSE_CODE_DESCRIPTIONS` constant from `packages/insomnia/src/common/constants.ts` for status code explanations.
+**Decision**: Use existing `RESPONSE_CODE_DESCRIPTIONS` constant from `packages/insomnia/src/common/constants.ts` for status code explanations, with class-based fallback for unknown codes.
 
 **Rationale**: 
 - The constant already contains comprehensive descriptions for all standard HTTP status codes (1xx-5xx)
 - Descriptions are sourced from MDN documentation and are well-maintained
 - Reusing existing data ensures consistency with current tooltip behavior
 - No need to maintain duplicate data sources
+- Class-based fallback (2xx, 4xx, 5xx) provides helpful context even for non-standard codes
 
 **Alternatives Considered**:
 - Creating a new constant: Rejected - would duplicate existing data
 - Fetching from external API: Rejected - requires network, adds latency, breaks offline capability
 - Using a library: Rejected - existing constant is sufficient and already integrated
+- "Unknown Response Code" only: Rejected - class-based description is more helpful
 
 **Implementation Pattern**: 
-- Create a new component `StatusCodeExplanationPanel` that reads from `RESPONSE_CODE_DESCRIPTIONS[statusCode]`
-- Handle unknown status codes with fallback message: "Unknown Response Code"
+- Create a new component `StatusCodeExplanationPanel` (also called "Status Helper Panel" in spec)
+- For known codes: Read from `RESPONSE_CODE_DESCRIPTIONS[statusCode]`
+- For unknown codes: Display generic class-based description based on status code range (2xx, 4xx, 5xx)
 - Position panel between `TabList` and `TabPanel` components in response pane
+- Panel should not appear when no response exists or request fails without response
 
 ### 2. Performance Indicator Visual Design
 
@@ -46,14 +50,15 @@ This document consolidates research findings and technical decisions for impleme
 - Icon-only indicators: Rejected - less accessible, requires learning curve
 
 **Thresholds** (from spec):
-- Fast: <500ms (green)
-- Acceptable: 500ms-3s (yellow/orange)
-- Slow: >3s (red)
+- Green/Fast: <500ms
+- Yellow/Moderate: 500ms-1500ms
+- Red/Slow: >1500ms
 
 **Implementation Pattern**:
-- Add utility function `getPerformanceCategory(milliseconds: number): 'fast' | 'acceptable' | 'slow'`
+- Add utility function `getPerformanceCategory(milliseconds: number): 'fast' | 'moderate' | 'slow'`
 - Modify `TimeTag` component to accept and display performance indicator
-- Use TailwindCSS classes for color coding: `bg-success`, `bg-warning`, `bg-danger`
+- Use TailwindCSS classes for color coding: `bg-success` (green), `bg-warning` (yellow), `bg-danger` (red)
+- Indicator is called "response time SLA indicator" in the UI
 
 ### 3. Copy Response Summary Format
 
@@ -116,13 +121,13 @@ Timestamp: [timestamp]
 **Edge Cases and Solutions**:
 
 1. **Non-standard status codes (e.g., 299, 999)**
-   - Solution: Display status code with message "Unknown Response Code" or "Non-standard status code"
+   - Solution: Display status code with generic class-based description (2xx, 4xx, 5xx) based on status code range
 
 2. **0ms response times**
    - Solution: Categorize as "fast" (<500ms threshold), display normally
 
 3. **Extremely long response times (hours)**
-   - Solution: Categorize as "slow" (>3s threshold), display with appropriate time unit (m/h)
+   - Solution: Categorize as "slow" (>1500ms threshold), display with appropriate time unit (m/h)
 
 4. **Cancelled requests**
    - Solution: Show error state in performance indicator, don't categorize by time alone
@@ -157,7 +162,7 @@ Timestamp: [timestamp]
 **Decision**: Use Vitest for unit tests and React Testing Library for component tests, following existing patterns.
 
 **Test Coverage**:
-- `getPerformanceCategory`: Test all threshold boundaries (499ms, 500ms, 2999ms, 3000ms, 3001ms)
+- `getPerformanceCategory`: Test all threshold boundaries (499ms, 500ms, 1499ms, 1500ms, 1501ms)
 - `formatResponseSummary`: Test format structure, edge cases (missing data, errors)
 - `StatusCodeExplanationPanel`: Test rendering with known/unknown status codes, loading states
 - `CopyResponseSummaryButton`: Test clipboard interaction, visual feedback, error handling
