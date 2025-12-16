@@ -5,3 +5,4 @@ build
 src/*.js
 src/*.js.map
 .react-router/
+.specstory/
